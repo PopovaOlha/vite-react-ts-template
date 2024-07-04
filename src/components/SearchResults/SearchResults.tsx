@@ -1,10 +1,7 @@
 import { Component } from 'react';
 import styles from './SearchResults.module.css';
 import Card from '../Card/Card';
-
-interface Props {
-  results: { name: string; description: string; image: string; age: string }[];
-}
+import { Props } from '../../types/interfaces';
 
 class SearchResults extends Component<Props> {
   render() {

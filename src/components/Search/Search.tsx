@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import styles from './Search.module.css';
+import { SearchProps, SearchState } from '../../types/interfaces';
 
-interface Props {
-  onSearch: (searchTerm: string) => void;
-}
-
-interface State {
-  searchTerm: string;
-}
-
-class Search extends Component<Props, State> {
-  constructor(props: Props) {
+class Search extends Component<SearchProps, SearchState> {
+  constructor(props: SearchProps) {
     super(props);
     this.state = {
       searchTerm: '',

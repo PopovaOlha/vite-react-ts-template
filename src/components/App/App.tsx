@@ -2,23 +2,7 @@ import { Component } from 'react';
 import Search from '../Search/Search';
 import SearchResults from '../SearchResults/SearchResults';
 import styles from './App.module.css';
-
-interface Character {
-  name: string;
-  description: string;
-  image: string;
-  age: string;
-}
-
-interface APICharacter {
-  name: string;
-  birth_year: string;
-  url: string;
-}
-
-interface State {
-  searchResults: Character[];
-}
+import { APICharacter, State } from '../../types/interfaces';
 
 class App extends Component<Record<string, never>, State> {
   constructor(props: Record<string, never>) {
