@@ -10,12 +10,18 @@ interface Character {
   age: string;
 }
 
+interface APICharacter {
+  name: string;
+  birth_year: string;
+  url: string;
+}
+
 interface State {
   searchResults: Character[];
 }
 
-class App extends Component<{}, State> {
-  constructor(props: {}) {
+class App extends Component<Record<string, never>, State> {
+  constructor(props: Record<string, never>) {
     super(props);
     this.state = {
       searchResults: [],
@@ -35,12 +41,16 @@ class App extends Component<{}, State> {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        const results = data.results.map((item: any) => ({
-          name: item.name,
-          description: item.birth_year,
-          image: `https://starwars-visualguide.com/assets/img/characters/${item.url.match(/\/([0-9]*)\/$/)[1]}.jpg`,
-          age: item.birth_year,
-        }));
+        const results = data.results.map((item: APICharacter) => {
+          const idMatch = item.url.match(/\/([0-9]*)\/$/);
+          const id = idMatch ? idMatch[1] : 'unknown';
+          return {
+            name: item.name,
+            description: item.birth_year,
+            image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
+            age: item.birth_year,
+          };
+        });
         this.setState({ searchResults: results });
       })
       .catch((error) => console.error('Error fetching data:', error));
