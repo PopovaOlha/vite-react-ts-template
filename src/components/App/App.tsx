@@ -1,8 +1,11 @@
 import { Component } from 'react';
 import Search from '../Search/Search';
 import SearchResults from '../SearchResults/SearchResults';
-import styles from './App.module.css';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import ErrorFallback from '../ErrorFallback/ErrorFallback';
+import ErrorTestButton from '../ErrorTestButton/ErrorTestButton';
 import { APICharacter, Character, State } from '../../types/interfaces';
+import styles from './App.module.css';
 
 class App extends Component<Record<string, never>, State> {
   constructor(props: Record<string, never>) {
@@ -78,15 +81,18 @@ class App extends Component<Record<string, never>, State> {
   render() {
     return (
       <div className={styles.app}>
-        <div className={styles.topSection}>
-          <Search
-            onSearch={this.handleSearch}
-            searchTerm={this.state.searchTerm}
-          />
-        </div>
-        <div className={styles.bottomSection}>
-          <SearchResults results={this.state.searchResults} />
-        </div>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <div className={styles.topSection}>
+            <Search
+              onSearch={this.handleSearch}
+              searchTerm={this.state.searchTerm}
+            />
+          </div>
+          <div className={styles.bottomSection}>
+            <SearchResults results={this.state.searchResults} />
+          </div>
+          <ErrorTestButton />
+        </ErrorBoundary>
       </div>
     );
   }
