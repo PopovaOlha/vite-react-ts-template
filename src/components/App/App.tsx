@@ -2,18 +2,20 @@ import { Component } from 'react';
 import Search from '../Search/Search';
 import SearchResults from '../SearchResults/SearchResults';
 import styles from './App.module.css';
-import { APICharacter, State } from '../../types/interfaces';
+import { APICharacter, Character, State } from '../../types/interfaces';
 
 class App extends Component<Record<string, never>, State> {
   constructor(props: Record<string, never>) {
     super(props);
     this.state = {
       searchResults: [],
+      searchTerm: '',
+      isInitialLoad: true,
     };
   }
 
   componentDidMount() {
-    this.performSearch('');
+    this.loadFromLocalStorage();
   }
 
   performSearch = (searchTerm: string) => {
@@ -35,20 +37,52 @@ class App extends Component<Record<string, never>, State> {
             age: item.birth_year,
           };
         });
-        this.setState({ searchResults: results });
+        this.setState(
+          { searchResults: results, searchTerm: searchTerm },
+          () => {
+            this.saveToLocalStorage(searchTerm, results);
+          },
+        );
       })
       .catch((error) => console.error('Error fetching data:', error));
   };
 
   handleSearch = (searchTerm: string) => {
-    this.performSearch(searchTerm);
+    this.performSearch(searchTerm.trim());
+  };
+
+  saveToLocalStorage = (searchTerm: string, results: Character[]) => {
+    localStorage.setItem('searchTerm', searchTerm);
+    localStorage.setItem('searchResults', JSON.stringify(results));
+  };
+
+  loadFromLocalStorage = () => {
+    const savedTerm = localStorage.getItem('searchTerm');
+    const savedResults = localStorage.getItem('searchResults');
+    if (savedTerm && savedResults) {
+      this.setState(
+        {
+          searchResults: JSON.parse(savedResults),
+          searchTerm: savedTerm,
+          isInitialLoad: false,
+        },
+        () => {
+          this.performSearch(savedTerm);
+        },
+      );
+    } else {
+      this.performSearch('');
+    }
   };
 
   render() {
     return (
       <div className={styles.app}>
         <div className={styles.topSection}>
-          <Search onSearch={this.handleSearch} />
+          <Search
+            onSearch={this.handleSearch}
+            searchTerm={this.state.searchTerm}
+          />
         </div>
         <div className={styles.bottomSection}>
           <SearchResults results={this.state.searchResults} />

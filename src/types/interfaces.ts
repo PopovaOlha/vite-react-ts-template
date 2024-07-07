@@ -17,6 +17,8 @@ export interface APICharacter {
 
 export interface State {
   searchResults: Character[];
+  searchTerm: string;
+  isInitialLoad: boolean;
 }
 
 export interface CardProps {
@@ -28,6 +30,7 @@ export interface CardProps {
 
 export interface SearchProps {
   onSearch: (searchTerm: string) => void;
+  searchTerm: string;
 }
 
 export interface SearchState {
