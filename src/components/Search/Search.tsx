@@ -1,49 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Search.module.css';
-import { SearchProps, SearchState } from '../../types/interfaces';
+import { SearchProps } from '../../types/interfaces';
 
-class Search extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      searchTerm: '',
-    };
-  }
+const Search: React.FC<SearchProps> = ({
+  onSearch,
+  searchTerm: initialSearchTerm,
+}) => {
+  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
 
-  componentDidMount() {
+  useEffect(() => {
     const savedTerm = localStorage.getItem('searchTerm');
     if (savedTerm) {
-      this.setState({ searchTerm: savedTerm });
+      setSearchTerm(savedTerm);
     }
-  }
+  }, []);
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
-  handleSearch = () => {
-    const { searchTerm } = this.state;
+  const handleSearch = () => {
     const trimmedSearchTerm = searchTerm.trim();
     localStorage.setItem('searchTerm', trimmedSearchTerm);
-    this.props.onSearch(trimmedSearchTerm);
+    onSearch(trimmedSearchTerm);
   };
 
-  render() {
-    return (
-      <div className={styles.search}>
-        <input
-          type="text"
-          value={this.state.searchTerm}
-          onChange={this.handleInputChange}
-          placeholder="Enter search term..."
-          className={styles.input}
-        />
-        <button onClick={this.handleSearch} className={styles.button}>
-          Search
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.search}>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleInputChange}
+        placeholder="Enter search term..."
+        className={styles.input}
+      />
+      <button onClick={handleSearch} className={styles.button}>
+        Search
+      </button>
+    </div>
+  );
+};
 
 export default Search;
