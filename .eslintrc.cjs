@@ -14,6 +14,7 @@ module.exports = {
     'react-refresh',
     'react',
     'react-hooks',
+    'react-compiler',
     'prettier'
   ],
   rules: {
@@ -22,6 +23,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     '@typescript-eslint/no-explicit-any': 'error',
+    'react-compiler/react-compiler': 'error',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error'
