@@ -4,7 +4,8 @@ import SearchResults from '../SearchResults/SearchResults';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorFallback from '../ErrorFallback/ErrorFallback';
 import ErrorTestButton from '../ErrorTestButton/ErrorTestButton';
-import { APICharacter, Character, State } from '../../types/interfaces';
+import { Character, State } from '../../types/interfaces';
+import { performSearch } from '../../api/api';
 import styles from './App.module.css';
 
 class App extends Component<Record<string, never>, State> {
@@ -21,37 +22,17 @@ class App extends Component<Record<string, never>, State> {
     this.loadFromLocalStorage();
   }
 
-  performSearch = (searchTerm: string) => {
-    let apiUrl = 'https://swapi.dev/api/people/?page=1';
-    if (searchTerm) {
-      apiUrl = `https://swapi.dev/api/people/?search=${searchTerm}`;
-    }
-
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const results = data.results.map((item: APICharacter) => {
-          const idMatch = item.url.match(/\/([0-9]*)\/$/);
-          const id = idMatch ? idMatch[1] : 'unknown';
-          return {
-            name: item.name,
-            description: item.birth_year,
-            image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
-            age: item.birth_year,
-          };
-        });
+  handleSearch = (searchTerm: string) => {
+    performSearch(searchTerm.trim())
+      .then((results) => {
         this.setState(
-          { searchResults: results, searchTerm: searchTerm },
+          { searchResults: results, searchTerm: searchTerm.trim() },
           () => {
             this.saveToLocalStorage(searchTerm, results);
           },
         );
       })
       .catch((error) => console.error('Error fetching data:', error));
-  };
-
-  handleSearch = (searchTerm: string) => {
-    this.performSearch(searchTerm.trim());
   };
 
   saveToLocalStorage = (searchTerm: string, results: Character[]) => {
@@ -70,11 +51,11 @@ class App extends Component<Record<string, never>, State> {
           isInitialLoad: false,
         },
         () => {
-          this.performSearch(savedTerm);
+          this.handleSearch(savedTerm);
         },
       );
     } else {
-      this.performSearch('');
+      this.handleSearch('');
     }
   };
 
