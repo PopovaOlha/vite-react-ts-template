@@ -4,6 +4,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorFallback from '../ErrorFallback/ErrorFallback';
 import ErrorTestButton from '../ErrorTestButton/ErrorTestButton';
+import Loader from '../Loader/Loader';
 import { Character, State } from '../../types/interfaces';
 import { performSearch } from '../../api/api';
 import styles from './App.module.css';
@@ -15,6 +16,7 @@ class App extends Component<Record<string, never>, State> {
       searchResults: [],
       searchTerm: '',
       isInitialLoad: true,
+      isLoading: false,
     };
   }
 
@@ -23,16 +25,24 @@ class App extends Component<Record<string, never>, State> {
   }
 
   handleSearch = (searchTerm: string) => {
+    this.setState({ isLoading: true });
     performSearch(searchTerm.trim())
       .then((results) => {
         this.setState(
-          { searchResults: results, searchTerm: searchTerm.trim() },
+          {
+            searchResults: results,
+            searchTerm: searchTerm.trim(),
+            isLoading: false,
+          },
           () => {
             this.saveToLocalStorage(searchTerm, results);
           },
         );
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        this.setState({ isLoading: false });
+      });
   };
 
   saveToLocalStorage = (searchTerm: string, results: Character[]) => {
@@ -70,7 +80,11 @@ class App extends Component<Record<string, never>, State> {
             />
           </div>
           <div className={styles.bottomSection}>
-            <SearchResults results={this.state.searchResults} />
+            {this.state.isLoading ? (
+              <Loader />
+            ) : (
+              <SearchResults results={this.state.searchResults} />
+            )}
           </div>
           <ErrorTestButton />
         </ErrorBoundary>
