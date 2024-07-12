@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "types": ["react", "jest", "css-modules"],
+  },
   "files": [],
   "references": [
     {
@@ -7,10 +12,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ],
-  "compilerOptions": {
-    "jsx": "react",
-    "esModuleInterop": true,
-    "types": ["react", "jest", "css-modules"]
-  }
+  ]
 }
