@@ -8,6 +8,10 @@ interface SearchResultsProps {
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
+  if (results.length === 0) {
+    return <p>No cards available</p>;
+  }
+
   return (
     <div className={styles.searchResults}>
       <h2>Search Results</h2>
