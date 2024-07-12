@@ -5,6 +5,7 @@ import fetchSearchResults from '../api/api';
 const useSearch = () => {
   const [searchResults, setSearchResults] = useState<Character[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const searchTermRef = useRef<string | null>(null);
 
@@ -13,12 +14,17 @@ const useSearch = () => {
   };
 
   const performSearch = useCallback((term: string) => {
+    setIsLoading(true);
     fetchSearchResults(term)
       .then((results) => {
         setSearchResults(results);
         setSearchTerm(term);
+        setIsLoading(false);
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      });
   }, []);
 
   const loadFromLocalStorage = useCallback(() => {
@@ -48,7 +54,7 @@ const useSearch = () => {
     searchTermRef.current = searchTerm;
   }, [searchTerm]);
 
-  return { searchResults, searchTerm, performSearch };
+  return { searchResults, searchTerm, performSearch, isLoading, setIsLoading };
 };
 
 export default useSearch;

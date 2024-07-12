@@ -19,6 +19,7 @@ export interface State {
   searchResults: Character[];
   searchTerm: string;
   isInitialLoad: boolean;
+  isLoading: boolean;
 }
 
 export interface CardProps {

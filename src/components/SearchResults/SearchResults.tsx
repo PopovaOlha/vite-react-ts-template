@@ -1,9 +1,13 @@
 import React from 'react';
 import styles from './SearchResults.module.css';
 import Card from '../Card/Card';
-import { Props } from '../../types/interfaces';
+import { Character } from '../../types/interfaces';
 
-const SearchResults: React.FC<Props> = ({ results }) => {
+interface SearchResultsProps {
+  results: Character[];
+}
+
+const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
   return (
     <div className={styles.searchResults}>
       <h2>Search Results</h2>
