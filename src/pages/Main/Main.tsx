@@ -7,9 +7,17 @@ import styles from './Main.module.css';
 import useSearch from '../../hooks/useLocalStorageSearch';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import Loader from '../../components/Loader/Loader';
+import Pagination from '../../components/Pagination/Pagination';
 
 const Main: React.FC = () => {
-  const { searchResults, searchTerm, performSearch, isLoading } = useSearch();
+  const {
+    searchResults,
+    searchTerm,
+    performSearch,
+    isLoading,
+    currentPage,
+    handlePageChange,
+  } = useSearch();
 
   const handleSearch = (searchTerm: string) => {
     performSearch(searchTerm.trim());
@@ -23,6 +31,13 @@ const Main: React.FC = () => {
         </div>
         <div className={styles.bottomSection}>
           {isLoading ? <Loader /> : <SearchResults results={searchResults} />}
+          {!isLoading && searchResults.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={9}
+              onPageChange={handlePageChange}
+            />
+          )}
         </div>
         <ErrorTestButton />
       </ErrorBoundary>

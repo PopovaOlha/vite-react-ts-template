@@ -1,9 +1,12 @@
 import { APICharacter, Character } from '../types/interfaces';
 
-const fetchSearchResults = async (searchTerm: string): Promise<Character[]> => {
+const fetchSearchResults = async (
+  searchTerm: string,
+  page: number = 1,
+): Promise<Character[]> => {
   const apiUrl = searchTerm
     ? `https://swapi.dev/api/people/?search=${searchTerm}`
-    : 'https://swapi.dev/api/people/?page=1';
+    : `https://swapi.dev/api/people/?page=${page}`;
 
   const response = await fetch(apiUrl);
   if (!response.ok) {
@@ -24,5 +27,4 @@ const fetchSearchResults = async (searchTerm: string): Promise<Character[]> => {
 
   return results;
 };
-
 export default fetchSearchResults;
