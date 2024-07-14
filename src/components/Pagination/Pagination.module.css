@@ -26,8 +26,10 @@
 }
 
 .pagination .currentPage {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
+  font-size: large;
+  background-color: white;
+  border: 1px solid #b6a4a4;
+  border-radius: 5px;
   color: #333;
   padding: 8px 12px;
   margin: 0 4px;

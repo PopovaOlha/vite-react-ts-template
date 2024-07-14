@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styles from './Details.module.css';
 import Loader from '../../components/Loader/Loader';
 import { Character } from '../../types/interfaces';
+import fetchSearchResults, { getCachedCharacterDetails } from '../../api/api';
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,25 +12,29 @@ const Details: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`https://swapi.dev/api/people/${id}/`)
-      .then((response) => response.json())
-      .then((data) => {
-        const characterId = data.url.match(/\/([0-9]*)\/$/)?.[1] || 'unknown';
-        const character: Character = {
-          id: characterId,
-          name: data.name,
-          description: data.birth_year,
-          image: `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`,
-          age: data.birth_year,
-        };
-        setDetails(character);
+    const getDetails = async () => {
+      if (!id) return;
+
+      setIsLoading(true);
+
+      const cachedCharacter = getCachedCharacterDetails(id);
+      if (cachedCharacter) {
+        setDetails(cachedCharacter);
         setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching details:', error);
-        setIsLoading(false);
-      });
+      } else {
+        try {
+          const results = await fetchSearchResults('');
+          const character = results.find((result) => result.id === id) || null;
+          setDetails(character);
+        } catch (error) {
+          console.error('Error fetching details:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    getDetails();
   }, [id]);
 
   const handleClose = () => {

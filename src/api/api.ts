@@ -1,5 +1,7 @@
 import { APICharacter, Character } from '../types/interfaces';
 
+let cachedResults: Character[] = [];
+
 const fetchSearchResults = async (
   searchTerm: string,
   page: number = 1,
@@ -26,6 +28,14 @@ const fetchSearchResults = async (
     };
   });
 
+  cachedResults = results;
   return results;
 };
+
+export const getCachedCharacterDetails = (
+  id: string,
+): Character | undefined => {
+  return cachedResults.find((character) => character.id === id);
+};
+
 export default fetchSearchResults;
