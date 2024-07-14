@@ -1,0 +1,25 @@
+.details {
+  position: fixed;
+  top: 80px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-left: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.closeButton {
+  display: block;
+  margin-left: auto;
+  padding: 5px 10px;
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.image {
+  width: 50%;
+  margin-bottom: 20px;
+}

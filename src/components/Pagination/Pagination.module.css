@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pagination .prevNext {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 8px 16px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination .prevNext:hover {
+  background-color: #ddd;
+}
+
+.pagination .prevNext[disabled] {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination .currentPage {
+  font-size: large;
+  background-color: white;
+  border: 1px solid #b6a4a4;
+  border-radius: 5px;
+  color: #333;
+  padding: 8px 12px;
+  margin: 0 4px;
+}

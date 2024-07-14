@@ -1,0 +1,17 @@
+.searchResults {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.searchResults h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}

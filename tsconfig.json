@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "types": ["react", "jest", "css-modules"],
+  },
   "files": [],
   "references": [
     {
