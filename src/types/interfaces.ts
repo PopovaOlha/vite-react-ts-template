@@ -27,6 +27,7 @@ export interface CardProps {
   description: string;
   image: string;
   age: string;
+  onClick: () => void;
 }
 
 export interface SearchProps {
@@ -36,4 +37,10 @@ export interface SearchProps {
 
 export interface SearchState {
   searchTerm: string;
+}
+
+export default interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }

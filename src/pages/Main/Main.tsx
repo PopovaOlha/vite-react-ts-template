@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import Search from '../../components/Search/Search';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import ErrorFallback from '../../components/ErrorFallback/ErrorFallback';
@@ -19,8 +20,21 @@ const Main: React.FC = () => {
     handlePageChange,
   } = useSearch();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSearch = (searchTerm: string) => {
     performSearch(searchTerm.trim());
+  };
+
+  const handleItemClick = (id: number) => {
+    navigate(`/details/${id}?page=${currentPage}`);
+  };
+
+  const handleLeftSectionClick = () => {
+    if (location.pathname.startsWith('/details/')) {
+      navigate(`/?page=${currentPage}`);
+    }
   };
 
   return (
@@ -30,14 +44,26 @@ const Main: React.FC = () => {
           <Search onSearch={handleSearch} searchTerm={searchTerm} />
         </div>
         <div className={styles.bottomSection}>
-          {isLoading ? <Loader /> : <SearchResults results={searchResults} />}
-          {!isLoading && searchResults.length > 0 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={9}
-              onPageChange={handlePageChange}
-            />
-          )}
+          <div className={styles.leftSection} onClick={handleLeftSectionClick}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <SearchResults
+                results={searchResults}
+                onItemClick={handleItemClick}
+              />
+            )}
+            {!isLoading && searchResults.length > 0 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={9}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </div>
+          <div className={styles.rightSection}>
+            <Outlet />
+          </div>
         </div>
         <ErrorTestButton />
       </ErrorBoundary>

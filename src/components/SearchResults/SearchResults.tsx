@@ -5,9 +5,13 @@ import { Character } from '../../types/interfaces';
 
 interface SearchResultsProps {
   results: Character[];
+  onItemClick: (id: number) => void;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({
+  results,
+  onItemClick,
+}) => {
   if (results.length === 0) {
     return <p>No cards available</p>;
   }
@@ -23,6 +27,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
             description={result.description}
             image={result.image}
             age={result.age}
+            onClick={() => onItemClick(index)}
           />
         ))}
       </div>
