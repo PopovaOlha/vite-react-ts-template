@@ -61,9 +61,11 @@ const Main: React.FC = () => {
               />
             )}
           </div>
-          <div className={styles.rightSection}>
-            <Outlet />
-          </div>
+          {location.pathname.startsWith('/details/') && (
+            <div className={styles.rightSection}>
+              <Outlet />
+            </div>
+          )}
         </div>
         <ErrorTestButton />
       </ErrorBoundary>
