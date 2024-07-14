@@ -5,7 +5,7 @@ import { Character } from '../../types/interfaces';
 
 interface SearchResultsProps {
   results: Character[];
-  onItemClick: (id: number) => void;
+  onItemClick: (id: string) => void;
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({
@@ -20,14 +20,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     <div className={styles.searchResults}>
       <h2>Search Results</h2>
       <div className={styles.cardContainer}>
-        {results.map((result, index) => (
+        {results.map((result) => (
           <Card
-            key={index}
+            key={result.id}
             name={result.name}
             description={result.description}
             image={result.image}
             age={result.age}
-            onClick={() => onItemClick(index)}
+            onClick={() => onItemClick(result.id)}
           />
         ))}
       </div>

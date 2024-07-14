@@ -18,6 +18,7 @@ const fetchSearchResults = async (
     const idMatch = item.url.match(/\/([0-9]*)\/$/);
     const id = idMatch ? idMatch[1] : 'unknown';
     return {
+      id: id,
       name: item.name,
       description: item.birth_year,
       image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,

@@ -15,9 +15,9 @@ const Details: React.FC = () => {
     fetch(`https://swapi.dev/api/people/${id}/`)
       .then((response) => response.json())
       .then((data) => {
-        const idMatch = data.url.match(/\/([0-9]*)\/$/);
-        const characterId = idMatch ? idMatch[1] : 'unknown';
+        const characterId = data.url.match(/\/([0-9]*)\/$/)?.[1] || 'unknown';
         const character: Character = {
+          id: characterId,
           name: data.name,
           description: data.birth_year,
           image: `https://starwars-visualguide.com/assets/img/characters/${characterId}.jpg`,

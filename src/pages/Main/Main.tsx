@@ -27,13 +27,13 @@ const Main: React.FC = () => {
     performSearch(searchTerm.trim());
   };
 
-  const handleItemClick = (id: number) => {
-    navigate(`/details/${id}?page=${currentPage}`);
+  const handleItemClick = (id: string) => {
+    navigate(`/details/${id}?frontpage=${currentPage}`);
   };
 
   const handleLeftSectionClick = () => {
     if (location.pathname.startsWith('/details/')) {
-      navigate(`/?page=${currentPage}`);
+      navigate(`/?frontpage=${currentPage}`);
     }
   };
 
