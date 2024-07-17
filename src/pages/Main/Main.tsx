@@ -58,6 +58,7 @@ const Main: React.FC = () => {
                 currentPage={currentPage}
                 totalPages={9}
                 onPageChange={handlePageChange}
+                searchTerm={searchTerm}
               />
             )}
           </div>

@@ -56,4 +56,12 @@ export default interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  searchTerm: string;
+}
+
+export interface SearchState {
+  searchResults: Character[];
+  searchTerm: string;
+  isLoading: boolean;
+  currentPage: number;
 }
