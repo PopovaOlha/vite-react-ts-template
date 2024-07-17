@@ -1,11 +1,10 @@
 .details {
   position: fixed;
-  top: 80px;
+  top: 120px;
   background-color: white;
   padding: 20px;
-  border: 1px solid #ccc;
-  margin-left: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 30px;
+  box-shadow: 0 4px 6px rgba(54, 47, 47, 0.1);
 }
 
 .closeButton {
@@ -20,6 +19,21 @@
 }
 
 .image {
-  width: 50%;
+  width: 70%;
   margin-bottom: 20px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.description {
+  border-left: 1px solid grey;
+  padding-left: 30%;
 }

@@ -8,12 +8,24 @@ export interface Character {
   description: string;
   image: string;
   age: string;
+  height: string;
+  mass: string;
+  gender: string;
+  films: string[];
 }
 
 export interface APICharacter {
+  id: string;
   name: string;
   birth_year: string;
   url: string;
+  description: string; // Assuming this is the birth year or some other description
+  image: string;
+  age: string; // Assuming this is the birth year or some other age-related info
+  height: string;
+  mass: string;
+  gender: string;
+  films: string[];
 }
 
 export interface State {

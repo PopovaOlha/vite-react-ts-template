@@ -55,8 +55,29 @@ const Details: React.FC = () => {
         Close
       </button>
       <h2>{details.name}</h2>
-      <img src={details.image} alt={details.name} className={styles.image} />
-      <p>{details.description}</p>
+      <div className={styles.container}>
+        <div className={styles.box}>
+          <img
+            src={details.image}
+            alt={details.name}
+            className={styles.image}
+          />
+        </div>
+        <div className={styles.description}>
+          <p>
+            <b>Birth Year:</b> {details.description}
+          </p>
+          <p>
+            <b>Height:</b> {details.height}
+          </p>
+          <p>
+            <b>Weight:</b> {details.mass}
+          </p>
+          <p>
+            <b>Gender:</b> {details.gender}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

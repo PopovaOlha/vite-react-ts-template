@@ -25,6 +25,10 @@ const fetchSearchResults = async (
       description: item.birth_year,
       image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
       age: item.birth_year,
+      height: item.height,
+      mass: item.mass,
+      gender: item.gender,
+      films: item.films,
     };
   });
 

@@ -1,24 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import SearchResults from './SearchResults';
-import { Character } from '../../types/interfaces';
 import '@testing-library/jest-dom';
-
-const mockResults: Character[] = [
-  {
-    id: '1',
-    name: 'Character 1',
-    description: 'Description 1',
-    image: 'image1.png',
-    age: '30',
-  },
-  {
-    id: '2',
-    name: 'Character 2',
-    description: 'Description 2',
-    image: 'image2.png',
-    age: '40',
-  },
-];
+import { mockResults } from '../../../test/mockData';
 
 jest.fn().mockReturnValue(undefined);
 const mockOnItemClick = jest.fn();
