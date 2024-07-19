@@ -13,16 +13,27 @@ import Pagination from '../../components/Pagination/Pagination';
 const Main: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { data: searchResults, isLoading } = useSearchCharactersQuery({
     searchTerm,
     page: currentPage,
   });
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const savedTerm = localStorage.getItem('searchTerm') || '';
+    const page = parseInt(params.get('page') || '1', 10);
+    setSearchTerm(savedTerm);
+    setCurrentPage(page);
+  }, [location.search]);
 
-  const handleSearch = (searchTerm: string) => {
-    setSearchTerm(searchTerm.trim());
+  const handleSearch = (term: string) => {
+    setSearchTerm(term.trim());
+    setCurrentPage(1);
+    navigate(`/?searchTerm=${term.trim()}&page=1`);
+    localStorage.setItem('searchTerm', term.trim());
   };
 
   const handleItemClick = (id: string) => {
@@ -31,12 +42,13 @@ const Main: React.FC = () => {
 
   const handleLeftSectionClick = () => {
     if (location.pathname.startsWith('/details/')) {
-      navigate(`/?frontpage=${currentPage}`);
+      navigate(`/?searchTerm=${searchTerm}&page=${currentPage}`);
     }
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    navigate(`/?searchTerm=${searchTerm}&page=${page}`);
   };
 
   return (
@@ -55,7 +67,7 @@ const Main: React.FC = () => {
                 onItemClick={handleItemClick}
               />
             )}
-            {!isLoading && searchResults!.length > 0 && (
+            {!isLoading && searchResults && searchResults.length > 0 && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={9}

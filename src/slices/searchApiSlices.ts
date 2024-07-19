@@ -10,13 +10,15 @@ export const searchApi = createApi({
       { searchTerm: string; page: number }
     >({
       query: ({ searchTerm, page }) =>
-        searchTerm ? `people/?search=${searchTerm}` : `people/?page=${page}`,
+        searchTerm
+          ? `people/?search=${searchTerm}&page=${page}`
+          : `people/?page=${page}`,
       transformResponse: (response: { results: APICharacter[] }) =>
         response.results.map((item) => {
           const idMatch = item.url.match(/\/([0-9]*)\/$/);
           const id = idMatch ? idMatch[1] : 'unknown';
           return {
-            id: id,
+            id,
             name: item.name,
             description: item.birth_year,
             image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
@@ -34,7 +36,7 @@ export const searchApi = createApi({
         const idMatch = item.url.match(/\/([0-9]*)\/$/);
         const id = idMatch ? idMatch[1] : 'unknown';
         return {
-          id: id,
+          id,
           name: item.name,
           description: item.birth_year,
           image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
