@@ -35,6 +35,10 @@ const Main: React.FC = () => {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className={styles.main}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -55,7 +59,7 @@ const Main: React.FC = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={9}
-                onPageChange={setCurrentPage}
+                onPageChange={handlePageChange}
                 searchTerm={searchTerm}
               />
             )}

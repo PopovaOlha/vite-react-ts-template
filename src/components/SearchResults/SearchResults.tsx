@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './SearchResults.module.css';
 import Card from '../Card/Card';
 import { Character } from '../../types/interfaces';
