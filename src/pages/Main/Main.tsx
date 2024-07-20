@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useSearchCharactersQuery } from '../../slices/searchApiSlices';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
 import Search from '../../components/Search/Search';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import ErrorFallback from '../../components/ErrorFallback/ErrorFallback';
@@ -9,12 +11,20 @@ import styles from './Main.module.css';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
+import { setSearchResults, setCurrentPage } from '../../slices/searchSlice';
 
 const Main: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState<string>('');
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const currentPage = useSelector(
+    (state: RootState) => state.search.currentPage,
+  );
+  const resultsByPage = useSelector(
+    (state: RootState) => state.search.resultsByPage,
+  );
 
   const { data: searchResults, isLoading } = useSearchCharactersQuery({
     searchTerm,
@@ -26,12 +36,18 @@ const Main: React.FC = () => {
     const savedTerm = localStorage.getItem('searchTerm') || '';
     const page = parseInt(params.get('page') || '1', 10);
     setSearchTerm(savedTerm);
-    setCurrentPage(page);
-  }, [location.search]);
+    dispatch(setCurrentPage(page));
+  }, [location.search, dispatch]);
+
+  React.useEffect(() => {
+    if (searchResults) {
+      dispatch(setSearchResults({ page: currentPage, results: searchResults }));
+    }
+  }, [searchResults, currentPage, dispatch]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term.trim());
-    setCurrentPage(1);
+    dispatch(setCurrentPage(1));
     navigate(`/?searchTerm=${term.trim()}&page=1`);
     localStorage.setItem('searchTerm', term.trim());
   };
@@ -47,7 +63,7 @@ const Main: React.FC = () => {
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    dispatch(setCurrentPage(page));
     navigate(`/?searchTerm=${searchTerm}&page=${page}`);
   };
 
@@ -63,18 +79,20 @@ const Main: React.FC = () => {
               <Loader />
             ) : (
               <SearchResults
-                results={searchResults || []}
+                results={resultsByPage[currentPage] || []}
                 onItemClick={handleItemClick}
               />
             )}
-            {!isLoading && searchResults && searchResults.length > 0 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={9}
-                onPageChange={handlePageChange}
-                searchTerm={searchTerm}
-              />
-            )}
+            {!isLoading &&
+              resultsByPage[currentPage] &&
+              resultsByPage[currentPage].length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={9}
+                  onPageChange={handlePageChange}
+                  searchTerm={searchTerm}
+                />
+              )}
           </div>
           {location.pathname.startsWith('/details/') && (
             <div className={styles.rightSection}>

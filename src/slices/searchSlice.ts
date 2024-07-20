@@ -6,14 +6,20 @@ const initialState: SearchState = {
   searchTerm: '',
   isLoading: false,
   currentPage: 1,
+  characterDetails: null,
+  resultsByPage: {},
 };
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setSearchResults(state, action: PayloadAction<Character[]>) {
-      state.searchResults = action.payload;
+    setSearchResults(
+      state,
+      action: PayloadAction<{ page: number; results: Character[] }>,
+    ) {
+      const { page, results } = action.payload;
+      state.resultsByPage[page] = results;
     },
     setSearchTerm(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload;
@@ -24,10 +30,18 @@ const searchSlice = createSlice({
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
+    setCharacterDetails(state, action: PayloadAction<Character | null>) {
+      state.characterDetails = action.payload;
+    },
   },
 });
 
-export const { setSearchResults, setSearchTerm, setIsLoading, setCurrentPage } =
-  searchSlice.actions;
+export const {
+  setSearchResults,
+  setSearchTerm,
+  setIsLoading,
+  setCurrentPage,
+  setCharacterDetails,
+} = searchSlice.actions;
 
 export default searchSlice.reducer;

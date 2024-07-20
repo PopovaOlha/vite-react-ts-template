@@ -19,9 +19,9 @@ export interface APICharacter {
   name: string;
   birth_year: string;
   url: string;
-  description: string; // Assuming this is the birth year or some other description
+  description: string;
   image: string;
-  age: string; // Assuming this is the birth year or some other age-related info
+  age: string;
   height: string;
   mass: string;
   gender: string;
@@ -50,6 +50,8 @@ export interface SearchProps {
 
 export interface SearchState {
   searchTerm: string;
+  characterDetails: Character | null;
+  resultsByPage: { [page: number]: Character[] };
 }
 
 export default interface PaginationProps {

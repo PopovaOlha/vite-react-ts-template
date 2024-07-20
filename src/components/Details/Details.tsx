@@ -1,14 +1,22 @@
 import * as React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetCharacterDetailsQuery } from '../../slices/searchApiSlices';
+import { useDispatch } from 'react-redux';
+import { setCharacterDetails } from '../../slices/searchSlice';
 import styles from './Details.module.css';
 import Loader from '../../components/Loader/Loader';
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: details, isLoading } = useGetCharacterDetailsQuery(id || '');
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (details) {
+      dispatch(setCharacterDetails(details));
+    }
+  }, [details, dispatch]);
 
   const handleClose = () => {
     navigate('/');
