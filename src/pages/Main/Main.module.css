@@ -26,10 +26,11 @@
 
 .rightSection {
   flex: 1;
-  margin-left: 20px;
-  padding: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 50px;
   overflow-y: hidden;
-  background-color: #f8f8f8;
+  background-color: rgb(190, 190, 190);
 }
 
 .closeButton {

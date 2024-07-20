@@ -27,6 +27,10 @@ body {
   display: flex;
   justify-content: center;
   place-items: center;
+  background-image: url('../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 h1 {
