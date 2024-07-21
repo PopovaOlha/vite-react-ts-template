@@ -11,6 +11,7 @@ import styles from './Main.module.css';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
+import backgroundImage from '../../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
 import {
   setSearchResults,
   setCurrentPage,
@@ -72,7 +73,10 @@ const Main: React.FC = () => {
   };
 
   return (
-    <div className={styles.main}>
+    <div
+      className={styles.main}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <div className={styles.topSection}>
           <Search onSearch={handleSearch} searchTerm={searchTerm} />
