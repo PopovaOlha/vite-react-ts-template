@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetCharacterDetailsQuery } from '../../slices/searchApiSlices';
 import { useDispatch } from 'react-redux';
 import { setCharacterDetails } from '../../slices/searchSlice';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './Details.module.css';
 import Loader from '../../components/Loader/Loader';
 
@@ -11,6 +12,7 @@ const Details: React.FC = () => {
   const { data: details, isLoading } = useGetCharacterDetailsQuery(id || '');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   React.useEffect(() => {
     if (details) {
@@ -31,7 +33,9 @@ const Details: React.FC = () => {
   }
 
   return (
-    <div className={styles.details}>
+    <div
+      className={`${styles.details} ${theme === 'dark' ? styles.dark : styles.light}`}
+    >
       <button onClick={handleClose} className={styles.closeButton}>
         Close
       </button>

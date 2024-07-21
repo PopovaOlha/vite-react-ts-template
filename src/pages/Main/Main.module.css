@@ -47,3 +47,17 @@
   cursor: pointer;
   font-size: 14px;
 }
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.themeToggle {
+  margin-bottom: 20px;
+}

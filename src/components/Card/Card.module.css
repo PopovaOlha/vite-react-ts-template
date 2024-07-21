@@ -6,7 +6,10 @@
   text-align: center;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  transition:
+    transform 0.2s,
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .card:hover {
@@ -31,4 +34,18 @@
 .cardContent p {
   margin: 5px 0;
   color: #555;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dark .cardContent p {
+  color: #bbbbbb;
 }

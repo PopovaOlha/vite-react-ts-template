@@ -17,11 +17,13 @@ import {
   setCurrentPage,
   setSearchTerm,
 } from '../../slices/searchSlice';
+import { useTheme } from '../../context/ThemeContext';
 
 const Main: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { theme } = useTheme();
 
   const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
   const currentPage = useSelector(
@@ -74,7 +76,7 @@ const Main: React.FC = () => {
 
   return (
     <div
-      className={styles.main}
+      className={`${styles.main} ${theme === 'dark' ? styles.dark : styles.light}`}
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
