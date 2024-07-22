@@ -18,6 +18,7 @@ import {
   setSearchTerm,
 } from '../../slices/searchSlice';
 import { useTheme } from '../../context/ThemeContext';
+import Flyout from '../../components/Flyout/Flyout';
 
 const Main: React.FC = () => {
   const navigate = useNavigate();
@@ -111,6 +112,7 @@ const Main: React.FC = () => {
           )}
         </div>
         <ErrorTestButton />
+        <Flyout />
       </ErrorBoundary>
     </div>
   );
