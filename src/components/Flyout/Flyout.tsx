@@ -11,6 +11,7 @@ const Flyout: React.FC = () => {
     (state: RootState) => state.selected.selectedItems,
   );
   const { theme } = useTheme();
+  const downloadLinkRef = React.useRef<HTMLAnchorElement>(null);
 
   if (selectedItems.length === 0) return null;
 
@@ -29,12 +30,15 @@ const Flyout: React.FC = () => {
         .join('\n');
 
     const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${selectedItems.length}_items.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+    if (downloadLinkRef.current) {
+      downloadLinkRef.current.setAttribute('href', encodedUri);
+      downloadLinkRef.current.setAttribute(
+        'download',
+        `${selectedItems.length}_items.csv`,
+      );
+      downloadLinkRef.current.click();
+    }
   };
 
   return (
@@ -44,6 +48,7 @@ const Flyout: React.FC = () => {
       <p>{selectedItems.length} items are selected</p>
       <button onClick={handleUnselectAll}>Unselect all</button>
       <button onClick={handleDownload}>Download</button>
+      <a ref={downloadLinkRef} style={{ display: 'none' }} />
     </div>
   );
 };
