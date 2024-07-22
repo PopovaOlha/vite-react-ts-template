@@ -7,15 +7,16 @@ import {
   getCachedCharacterDetails,
 } from '../../../test/mockData';
 
-// Mock functions
 jest.mock('../../api/api', () => ({
   fetchSearchResults: jest.fn(),
   getCachedCharacterDetails: jest.fn(),
 }));
 
 describe('Card Component', () => {
-  const mockCard = mockResults[0];
-  const onClickMock = jest.fn(() => getCachedCharacterDetails(mockCard.id));
+  const mockCharacter = mockResults[0];
+  const onClickMock = jest.fn(() =>
+    getCachedCharacterDetails(mockCharacter.id),
+  );
 
   beforeEach(() => {
     fetchSearchResults.mockResolvedValue(mockResults);
@@ -29,34 +30,34 @@ describe('Card Component', () => {
   });
 
   test('renders the relevant card data', () => {
-    render(<Card {...mockCard} onClick={onClickMock} />);
+    render(<Card character={mockCharacter} onClick={onClickMock} />);
 
-    expect(screen.getByText(mockCard.name)).toBeInTheDocument();
-    expect(screen.getByText(mockCard.description)).toBeInTheDocument();
+    expect(screen.getByText(mockCharacter.name)).toBeInTheDocument();
+    expect(screen.getByText(mockCharacter.description)).toBeInTheDocument();
     expect(
       screen.getByText((_, element) => {
-        return element?.textContent === `Age: ${mockCard.age}`;
+        return element?.textContent === `Age: ${mockCharacter.age}`;
       }),
     ).toBeInTheDocument();
-    expect(screen.getByAltText(mockCard.name)).toBeInTheDocument();
+    expect(screen.getByAltText(mockCharacter.name)).toBeInTheDocument();
   });
 
   test('clicking on a card opens detailed card component', () => {
-    render(<Card {...mockCard} onClick={onClickMock} />);
+    render(<Card character={mockCharacter} onClick={onClickMock} />);
 
-    const card = screen.getByText(mockCard.name);
+    const card = screen.getByText(mockCharacter.name);
     fireEvent.click(card);
 
     expect(onClickMock).toHaveBeenCalled();
   });
 
   test('clicking on a card triggers an additional API call to fetch detailed information', async () => {
-    render(<Card {...mockCard} onClick={onClickMock} />);
+    render(<Card character={mockCharacter} onClick={onClickMock} />);
 
-    const card = screen.getByText(mockCard.name);
+    const card = screen.getByText(mockCharacter.name);
     fireEvent.click(card);
 
     expect(onClickMock).toHaveBeenCalled();
-    expect(getCachedCharacterDetails).toHaveBeenCalledWith(mockCard.id);
+    expect(getCachedCharacterDetails).toHaveBeenCalledWith(mockCharacter.id);
   });
 });

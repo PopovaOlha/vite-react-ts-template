@@ -12,6 +12,7 @@ export interface Character {
   mass: string;
   gender: string;
   films: string[];
+  isSelected?: boolean;
 }
 
 export interface APICharacter {
@@ -36,6 +37,7 @@ export interface State {
 }
 
 export interface CardProps {
+  id: string;
   name: string;
   description: string;
   image: string;

@@ -34,7 +34,7 @@ const Main: React.FC = () => {
   );
   const isLoading = useSelector((state: RootState) => state.search.isLoading);
 
-  const { data: searchResults } = useSearchCharactersQuery({
+  const { data: searchResults, isFetching } = useSearchCharactersQuery({
     searchTerm,
     page: currentPage,
   });
@@ -85,7 +85,7 @@ const Main: React.FC = () => {
         </div>
         <div className={styles.bottomSection}>
           <div className={styles.leftSection} onClick={handleLeftSectionClick}>
-            {isLoading ? (
+            {isLoading || isFetching ? (
               <Loader />
             ) : (
               <SearchResults

@@ -10,6 +10,7 @@
     transform 0.2s,
     background-color 0.3s,
     color 0.3s;
+  position: relative;
 }
 
 .card:hover {
@@ -36,6 +37,21 @@
   color: #555;
 }
 
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.checkboxLabel {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
 .light {
   background-color: #ffffff;
   color: #000000;
@@ -47,5 +63,14 @@
 }
 
 .dark .cardContent p {
+  color: #bbbbbb;
+}
+
+.dark .checkboxContainer {
+  background-color: #444444;
+  border-top: 1px solid #555555;
+}
+
+.dark .checkboxLabel {
   color: #bbbbbb;
 }
