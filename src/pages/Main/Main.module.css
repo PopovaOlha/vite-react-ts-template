@@ -5,6 +5,7 @@
   padding: 10px;
   font-family: 'Helvetica Neue', sans-serif;
   overflow: hidden;
+  border-radius: 10px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
