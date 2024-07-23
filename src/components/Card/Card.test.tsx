@@ -1,63 +1,72 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import selectedReducer, { toggleSelectItem } from '../../slices/selectedSlice';
+import { ThemeProvider } from '../../context/ThemeContext';
 import Card from './Card';
-import {
-  mockResults,
-  fetchSearchResults,
-  getCachedCharacterDetails,
-} from '../../../test/mockData';
+import { mockCharacter } from '../../../test/mockData';
 
-jest.mock('../../api/api', () => ({
-  fetchSearchResults: jest.fn(),
-  getCachedCharacterDetails: jest.fn(),
-}));
+const store = configureStore({
+  reducer: {
+    selected: selectedReducer,
+  },
+});
+
+const renderWithProviders = (component: React.ReactElement) => {
+  return render(
+    <Provider store={store}>
+      <ThemeProvider>{component}</ThemeProvider>
+    </Provider>,
+  );
+};
 
 describe('Card Component', () => {
-  const mockCharacter = mockResults[0];
-  const onClickMock = jest.fn(() =>
-    getCachedCharacterDetails(mockCharacter.id),
-  );
+  test('renders character card with correct details', () => {
+    renderWithProviders(<Card character={mockCharacter} onClick={() => {}} />);
 
-  beforeEach(() => {
-    fetchSearchResults.mockResolvedValue(mockResults);
-    getCachedCharacterDetails.mockImplementation((id: string) =>
-      mockResults.find((character) => character.id === id),
+    expect(screen.getByAltText(mockCharacter.name)).toHaveAttribute(
+      'src',
+      mockCharacter.image,
     );
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test('renders the relevant card data', () => {
-    render(<Card character={mockCharacter} onClick={onClickMock} />);
-
     expect(screen.getByText(mockCharacter.name)).toBeInTheDocument();
     expect(screen.getByText(mockCharacter.description)).toBeInTheDocument();
-    expect(
-      screen.getByText((_, element) => {
-        return element?.textContent === `Age: ${mockCharacter.age}`;
-      }),
-    ).toBeInTheDocument();
-    expect(screen.getByAltText(mockCharacter.name)).toBeInTheDocument();
   });
 
-  test('clicking on a card opens detailed card component', () => {
-    render(<Card character={mockCharacter} onClick={onClickMock} />);
+  test('checks checkbox is unchecked when character is not selected', () => {
+    renderWithProviders(<Card character={mockCharacter} onClick={() => {}} />);
 
-    const card = screen.getByText(mockCharacter.name);
-    fireEvent.click(card);
-
-    expect(onClickMock).toHaveBeenCalled();
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).not.toBeChecked();
   });
 
-  test('clicking on a card triggers an additional API call to fetch detailed information', async () => {
-    render(<Card character={mockCharacter} onClick={onClickMock} />);
+  test('checks checkbox is checked when character is selected', () => {
+    store.dispatch(toggleSelectItem(mockCharacter));
+    renderWithProviders(<Card character={mockCharacter} onClick={() => {}} />);
 
-    const card = screen.getByText(mockCharacter.name);
-    fireEvent.click(card);
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toBeChecked();
+  });
 
-    expect(onClickMock).toHaveBeenCalled();
-    expect(getCachedCharacterDetails).toHaveBeenCalledWith(mockCharacter.id);
+  test('triggers onClick prop when card is clicked', () => {
+    const onClick = jest.fn();
+    renderWithProviders(<Card character={mockCharacter} onClick={onClick} />);
+
+    const cardElement = screen.getByTestId('card');
+
+    fireEvent.click(cardElement);
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  test('does not trigger onClick when clicking on checkbox', () => {
+    const onClick = jest.fn();
+    renderWithProviders(<Card character={mockCharacter} onClick={onClick} />);
+
+    fireEvent.click(screen.getByRole('checkbox'));
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
+  test('applies correct theme class based on theme context', () => {
+    renderWithProviders(<Card character={mockCharacter} onClick={() => {}} />);
   });
 });

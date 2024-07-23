@@ -26,6 +26,7 @@ const Card: React.FC<CardProps> = ({ character, onClick }) => {
   };
 
   const handleCardClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Prevent click event from firing if the checkbox is clicked
     if ((event.target as HTMLInputElement).type === 'checkbox') {
       return;
     }
@@ -34,6 +35,7 @@ const Card: React.FC<CardProps> = ({ character, onClick }) => {
 
   return (
     <div
+      data-testid="card" // Добавлено для упрощения тестирования
       className={`${styles.card} ${theme === 'dark' ? styles.dark : styles.light}`}
       onClick={handleCardClick}
     >
