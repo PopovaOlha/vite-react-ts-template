@@ -37,7 +37,7 @@
 }
 
 .themeToggle label.active {
-  color: #1f2220;
+  color: #ddd;
 }
 
 .themeToggle label.active::before {

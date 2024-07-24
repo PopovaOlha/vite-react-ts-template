@@ -11,7 +11,8 @@ import styles from './Main.module.css';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
-import backgroundImage from '../../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
+import backgroundImageLight from '../../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
+import backgroundImageDark from '../../../assets/desktop-wallpaper-cool-star-wars-background-awesome-star-wars.jpg';
 import {
   setSearchResults,
   setCurrentPage,
@@ -75,10 +76,13 @@ const Main: React.FC = () => {
     navigate(`/?searchTerm=${searchTerm}&page=${page}`);
   };
 
+  const currentBackgroundImage =
+    theme === 'dark' ? backgroundImageDark : backgroundImageLight;
+
   return (
     <div
       className={`${styles.main} ${theme === 'dark' ? styles.dark : styles.light}`}
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      style={{ backgroundImage: `url(${currentBackgroundImage})` }}
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <div className={styles.topSection}>
