@@ -6,7 +6,8 @@ export default {
   },
   setupFiles: ['<rootDir>/setupJest.ts'],
   moduleNameMapper: {
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
+    '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$':
+      '<rootDir>/test/__mocks__/fileMock.ts',
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '^@app/(.*)$': '<rootDir>/$1',
   },

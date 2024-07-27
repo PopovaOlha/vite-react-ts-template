@@ -45,8 +45,8 @@ const Flyout: React.FC = () => {
     <div
       className={`${styles.flyout} ${theme === 'dark' ? styles.dark : styles.light}`}
     >
-      <p>{selectedItems.length} items are selected</p>
       <button onClick={handleUnselectAll}>Unselect all</button>
+      <p>{selectedItems.length} items are selected</p>
       <button onClick={handleDownload}>Download</button>
       <a
         ref={downloadLinkRef}
