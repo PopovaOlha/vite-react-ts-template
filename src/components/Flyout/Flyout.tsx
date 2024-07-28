@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { setSelectedItems } from '../../slices/selectedSlice';
 import styles from './Flyout.module.css';
@@ -11,9 +12,8 @@ const Flyout: React.FC = () => {
     (state: RootState) => state.selected.selectedItems,
   );
   const { theme } = useTheme();
-  const downloadLinkRef = React.useRef<HTMLAnchorElement>(null);
-
-  if (selectedItems.length === 0) return null;
+  const [csvUri, setCsvUri] = useState<string | null>(null);
+  const downloadLinkRef = useRef<HTMLAnchorElement>(null);
 
   const handleUnselectAll = () => {
     dispatch(setSelectedItems([]));
@@ -29,30 +29,37 @@ const Flyout: React.FC = () => {
         )
         .join('\n');
 
-    const encodedUri = encodeURI(csvContent);
-
-    if (downloadLinkRef.current) {
-      downloadLinkRef.current.setAttribute('href', encodedUri);
-      downloadLinkRef.current.setAttribute(
-        'download',
-        `${selectedItems.length}_items.csv`,
-      );
-      downloadLinkRef.current.click();
-    }
+    setCsvUri(encodeURI(csvContent));
   };
+
+  useEffect(() => {
+    if (csvUri && downloadLinkRef.current) {
+      downloadLinkRef.current.click();
+      setCsvUri(null);
+    }
+  }, [csvUri]);
+
+  if (selectedItems.length === 0) return null;
 
   return (
     <div
-      className={`${styles.flyout} ${theme === 'dark' ? styles.dark : styles.light}`}
+      className={`${styles.flyout} ${
+        theme === 'dark' ? styles.dark : styles.light
+      }`}
     >
       <button onClick={handleUnselectAll}>Unselect all</button>
       <p>{selectedItems.length} items are selected</p>
       <button onClick={handleDownload}>Download</button>
-      <a
-        ref={downloadLinkRef}
-        style={{ display: 'none' }}
-        data-testid="download-link"
-      />
+      {csvUri && (
+        <a
+          ref={downloadLinkRef}
+          href={csvUri}
+          download={`${selectedItems.length}_items.csv`}
+          style={{ display: 'none' }}
+        >
+          Download Link
+        </a>
+      )}
     </div>
   );
 };
