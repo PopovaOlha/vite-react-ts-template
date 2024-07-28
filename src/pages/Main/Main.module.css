@@ -9,6 +9,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 .topSection {
@@ -84,6 +85,7 @@
 
   .topSection {
     margin: 10px 0;
+    background-size: contain;
   }
 
   .bottomSection {
@@ -122,6 +124,12 @@
 }
 
 @media (max-width: 480px) {
+  .leftSection {
+    background-color: #ccc;
+    opacity: 0.9;
+    border-radius: 10px;
+  }
+
   .rightSection {
     padding: 20px;
   }
