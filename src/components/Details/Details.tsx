@@ -1,41 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useGetCharacterDetailsQuery } from '../../slices/searchApiSlices';
+import { useDispatch } from 'react-redux';
+import { setCharacterDetails } from '../../slices/searchSlice';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './Details.module.css';
 import Loader from '../../components/Loader/Loader';
-import { Character } from '../../types/interfaces';
-import fetchSearchResults, { getCachedCharacterDetails } from '../../api/api';
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [details, setDetails] = useState<Character | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data: details, isLoading } = useGetCharacterDetailsQuery(id || '');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
-  useEffect(() => {
-    const getDetails = async () => {
-      if (!id) return;
-
-      setIsLoading(true);
-
-      const cachedCharacter = getCachedCharacterDetails(id);
-      if (cachedCharacter) {
-        setDetails(cachedCharacter);
-        setIsLoading(false);
-      } else {
-        try {
-          const results = await fetchSearchResults('');
-          const character = results.find((result) => result.id === id) || null;
-          setDetails(character);
-        } catch (error) {
-          console.error('Error fetching details:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    getDetails();
-  }, [id]);
+  React.useEffect(() => {
+    if (details) {
+      dispatch(setCharacterDetails(details));
+    }
+  }, [details, dispatch]);
 
   const handleClose = () => {
     navigate('/');
@@ -50,13 +33,36 @@ const Details: React.FC = () => {
   }
 
   return (
-    <div className={styles.details}>
+    <div
+      className={`${styles.details} ${theme === 'dark' ? styles.dark : styles.light}`}
+    >
       <button onClick={handleClose} className={styles.closeButton}>
         Close
       </button>
       <h2>{details.name}</h2>
-      <img src={details.image} alt={details.name} className={styles.image} />
-      <p>{details.description}</p>
+      <div className={styles.container}>
+        <div className={styles.box}>
+          <img
+            src={details.image}
+            alt={details.name}
+            className={styles.image}
+          />
+        </div>
+        <div className={styles.description}>
+          <p>
+            <b>Birth Year:</b> {details.description}
+          </p>
+          <p>
+            <b>Height:</b> {details.height}
+          </p>
+          <p>
+            <b>Weight:</b> {details.mass}
+          </p>
+          <p>
+            <b>Gender:</b> {details.gender}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

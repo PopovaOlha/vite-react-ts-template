@@ -1,0 +1,99 @@
+.flyout {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 10px 20px;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.light flyout p {
+  margin: 0;
+  font-size: 16px;
+  color: #495057;
+}
+
+.flyout button {
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.flyout button:hover {
+  background-color: #57a85a;
+}
+
+.flyout button:first-child {
+  background-color: #adb5bd;
+  margin-left: 0;
+}
+
+.flyout button:first-child:hover {
+  background-color: #6c757d;
+}
+
+.light {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.dark {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+.dark button {
+  background-color: #495057;
+}
+
+.dark button:hover {
+  background-color: #343a40;
+}
+
+@media (max-width: 768px) {
+  .flyout {
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .flyout p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .flyout button {
+    padding: 8px 16px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .flyout button:first-child {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flyout {
+    padding: 10px;
+  }
+
+  .flyout p {
+    font-size: 12px;
+  }
+
+  .flyout button {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+}

@@ -1,42 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Search.module.css';
+import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { setSearchTerm } from '../../slices/searchSlice';
 import { SearchProps } from '../../types/interfaces';
+import styles from './Search.module.css';
 
-const Search: React.FC<SearchProps> = ({
-  onSearch,
-  searchTerm: initialSearchTerm,
-}) => {
-  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
+const Search: React.FC<SearchProps> = ({ onSearch }) => {
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
+  const [localSearchTerm, setLocalSearchTerm] =
+    React.useState<string>(searchTerm);
 
-  useEffect(() => {
-    const savedTerm = localStorage.getItem('searchTerm');
-    if (savedTerm) {
-      setSearchTerm(savedTerm);
-    }
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalSearchTerm(event.target.value);
   };
 
-  const handleSearch = () => {
-    const trimmedSearchTerm = searchTerm.trim();
-    localStorage.setItem('searchTerm', trimmedSearchTerm);
-    onSearch(trimmedSearchTerm);
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    dispatch(setSearchTerm(localSearchTerm));
+    onSearch(localSearchTerm);
   };
+
+  React.useEffect(() => {
+    setLocalSearchTerm(searchTerm);
+  }, [searchTerm]);
 
   return (
-    <div className={styles.search}>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleInputChange}
-        placeholder="Enter search term..."
-        className={styles.input}
-      />
-      <button onClick={handleSearch} className={styles.button}>
-        Search
-      </button>
+    <div>
+      <form onSubmit={handleSubmit} className={styles.search}>
+        <input
+          type="text"
+          value={localSearchTerm}
+          onChange={handleChange}
+          placeholder="Search..."
+          className={styles.input}
+        />
+        <button type="submit" className={styles.button}>
+          Search
+        </button>
+      </form>
     </div>
   );
 };

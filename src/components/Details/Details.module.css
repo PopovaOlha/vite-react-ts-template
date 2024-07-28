@@ -1,11 +1,23 @@
 .details {
   position: fixed;
-  top: 80px;
+  top: 120px;
   background-color: white;
   padding: 20px;
-  border: 1px solid #ccc;
-  margin-left: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 30px;
+  box-shadow: 0 4px 6px rgba(54, 47, 47, 0.1);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.light {
+  background-color: white;
+  color: black;
+}
+
+.dark {
+  background-color: #333333;
+  color: white;
 }
 
 .closeButton {
@@ -20,6 +32,75 @@
 }
 
 .image {
-  width: 50%;
+  width: 70%;
   margin-bottom: 20px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.description {
+  border-left: 1px solid grey;
+  padding-left: 30%;
+}
+
+.light .description {
+  border-left-color: grey;
+}
+
+.dark .description {
+  border-left-color: #666666;
+}
+
+@media (max-width: 768px) {
+  .details {
+    top: 80px;
+    margin-left: 10px;
+    padding: 15px;
+    width: 80%;
+  }
+
+  .image {
+    width: 90%;
+  }
+
+  .description {
+    padding-left: 10%;
+    border-left: none;
+    padding-top: 10px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .details {
+    top: 40px;
+    margin-left: 5px;
+    padding: 10px;
+    width: 80%;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  .description {
+    padding-left: 5%;
+    padding-top: 5px;
+  }
+
+  .closeButton {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
 }

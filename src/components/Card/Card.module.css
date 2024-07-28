@@ -6,7 +6,11 @@
   text-align: center;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  transition:
+    transform 0.2s,
+    background-color 0.3s,
+    color 0.3s;
+  position: relative;
 }
 
 .card:hover {
@@ -31,4 +35,78 @@
 .cardContent p {
   margin: 5px 0;
   color: #555;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.checkboxLabel {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dark .cardContent p {
+  color: #bbbbbb;
+}
+
+.dark .checkboxContainer {
+  background-color: #444444;
+  border-top: 1px solid #555555;
+}
+
+.dark .checkboxLabel {
+  color: #bbbbbb;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 45%;
+  }
+
+  .cardContent h3 {
+    font-size: 16px;
+  }
+
+  .cardContent p {
+    font-size: 14px;
+  }
+
+  .checkboxLabel {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 70%;
+  }
+
+  .cardContent h3 {
+    font-size: 14px;
+  }
+
+  .cardContent p {
+    font-size: 12px;
+  }
+
+  .checkboxLabel {
+    font-size: 10px;
+  }
 }

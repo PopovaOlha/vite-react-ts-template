@@ -22,3 +22,19 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .spinner {
+    width: 80px;
+    height: 80px;
+    border-width: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border-width: 8px;
+  }
+}

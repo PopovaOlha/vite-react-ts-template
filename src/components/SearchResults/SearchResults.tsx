@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './SearchResults.module.css';
 import Card from '../Card/Card';
 import { Character } from '../../types/interfaces';
@@ -23,10 +23,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         {results.map((result) => (
           <Card
             key={result.id}
-            name={result.name}
-            description={result.description}
-            image={result.image}
-            age={result.age}
+            character={result}
             onClick={() => onItemClick(result.id)}
           />
         ))}

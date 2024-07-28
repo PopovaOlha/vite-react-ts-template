@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './Pagination.module.css';
 import PaginationProps from '../../types/interfaces';
 
@@ -6,12 +6,15 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  searchTerm,
 }) => {
   const handlePrevClick = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   };
+
+  const isDisabled = searchTerm.trim() !== '';
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
@@ -24,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         className={styles.prevNext}
         onClick={handlePrevClick}
-        disabled={currentPage === 1}
+        disabled={isDisabled || currentPage === 1}
       >
         Previous
       </button>
@@ -32,7 +35,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         className={styles.prevNext}
         onClick={handleNextClick}
-        disabled={currentPage === totalPages}
+        disabled={isDisabled || currentPage === totalPages}
       >
         Next
       </button>

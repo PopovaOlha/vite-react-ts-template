@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  flex-wrap: wrap;
 }
 
 .pagination .prevNext {
@@ -13,6 +14,7 @@
   margin: 0 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .pagination .prevNext:hover {
@@ -33,4 +35,30 @@
   color: #333;
   padding: 8px 12px;
   margin: 0 4px;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    margin: 15px 0;
+  }
+
+  .pagination .prevNext,
+  .pagination .currentPage {
+    padding: 6px 12px;
+    margin: 2px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    margin: 10px 0;
+  }
+
+  .pagination .prevNext,
+  .pagination .currentPage {
+    padding: 4px 8px;
+    margin: 2px;
+    font-size: 10px;
+  }
 }
