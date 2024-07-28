@@ -48,3 +48,37 @@
 .themeToggle label:hover {
   color: #4caf50;
 }
+
+@media (max-width: 768px) {
+  .themeToggle {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .themeToggle label {
+    font-size: 14px;
+  }
+
+  .themeToggle label::before {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .themeToggle {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .themeToggle label {
+    font-size: 12px;
+  }
+
+  .themeToggle label::before {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+  }
+}

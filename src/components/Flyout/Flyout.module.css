@@ -59,3 +59,41 @@
 .dark button:hover {
   background-color: #343a40;
 }
+
+@media (max-width: 768px) {
+  .flyout {
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .flyout p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .flyout button {
+    padding: 8px 16px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .flyout button:first-child {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flyout {
+    padding: 10px;
+  }
+
+  .flyout p {
+    font-size: 12px;
+  }
+
+  .flyout button {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+}

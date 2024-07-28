@@ -12,7 +12,7 @@ import SearchResults from '../../components/SearchResults/SearchResults';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
 import backgroundImageLight from '../../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
-import backgroundImageDark from '../../../assets/desktop-wallpaper-cool-star-wars-background-awesome-star-wars.jpg';
+import backgroundImageDark from '../../../assets/star-wars-background-vdgqv4b95q9ur6ak.jpg';
 import {
   setSearchResults,
   setCurrentPage,

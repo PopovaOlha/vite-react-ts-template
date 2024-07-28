@@ -74,3 +74,39 @@
 .dark .checkboxLabel {
   color: #bbbbbb;
 }
+
+@media (max-width: 768px) {
+  .card {
+    width: 45%;
+  }
+
+  .cardContent h3 {
+    font-size: 16px;
+  }
+
+  .cardContent p {
+    font-size: 14px;
+  }
+
+  .checkboxLabel {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 90%;
+  }
+
+  .cardContent h3 {
+    font-size: 14px;
+  }
+
+  .cardContent p {
+    font-size: 12px;
+  }
+
+  .checkboxLabel {
+    font-size: 10px;
+  }
+}
