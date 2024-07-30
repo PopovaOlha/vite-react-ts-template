@@ -8,8 +8,6 @@
     "module": "ESNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -17,8 +15,6 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "preserve",
-
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -28,6 +24,6 @@
     "incremental": true,
     "plugins": [{ "name": "next" }]
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", "test"],
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", "./test"],
   "exclude": ["./node_modules"]
 }
