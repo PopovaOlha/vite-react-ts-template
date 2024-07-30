@@ -3,8 +3,8 @@ self.__BUILD_MANIFEST = {
   devFiles: [],
   ampDevFiles: [],
   lowPriorityFiles: [
-    'static/s7hcTRtUoBolJn_yj8cE-/_buildManifest.js',
-    'static/s7hcTRtUoBolJn_yj8cE-/_ssgManifest.js',
+    'static/4FI9_Pi_XI6f9dHbhYdEb/_buildManifest.js',
+    'static/4FI9_Pi_XI6f9dHbhYdEb/_ssgManifest.js',
   ],
   rootMainFiles: [],
   pages: {
@@ -13,9 +13,9 @@ self.__BUILD_MANIFEST = {
       'static/chunks/framework-ecc4130bc7a58a64.js',
       'static/chunks/main-cb4281779d2d79ab.js',
       'static/chunks/3b1baa31-705565335c6f2cfa.js',
-      'static/chunks/451-70b0a91961d0f8ca.js',
+      'static/chunks/505-ae55b6fb22bce6b0.js',
       'static/css/091f3ad584d7c8e1.css',
-      'static/chunks/pages/index-8c20609bc874746c.js',
+      'static/chunks/pages/index-36955b313a573e4c.js',
     ],
     '/_app': [
       'static/chunks/webpack-87b3a303122f2f0d.js',
