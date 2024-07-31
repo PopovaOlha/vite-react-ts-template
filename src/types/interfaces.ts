@@ -68,6 +68,7 @@ export interface SearchState {
   searchTerm: string;
   isLoading: boolean;
   currentPage: number;
+  totalPages: number;
 }
 
 export type Theme = 'light' | 'dark';

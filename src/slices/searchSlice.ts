@@ -8,6 +8,7 @@ const initialState: SearchState = {
   currentPage: 1,
   characterDetails: null,
   resultsByPage: {},
+  totalPages: 9,
 };
 
 const searchSlice = createSlice({

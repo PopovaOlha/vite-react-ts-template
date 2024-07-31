@@ -1,58 +1,56 @@
 import * as React from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import Search from '../components/Search/Search';
+import { useDispatch } from 'react-redux';
+import { useTheme } from '../context/ThemeContext';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import ErrorFallback from '../components/ErrorFallback/ErrorFallback';
 import ErrorTestButton from '../components/ErrorTestButton/ErrorTestButton';
-import styles from '../styles/index.module.css';
+import Search from '../components/Search/Search';
 import SearchResults from '../components/SearchResults/SearchResults';
 import Loader from '../components/Loader/Loader';
 import Pagination from '../components/Pagination/Pagination';
+import Flyout from '../components/Flyout/Flyout';
+import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
+import styles from '../styles/index.module.css';
 import backgroundImageLight from '../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
 import backgroundImageDark from '../../assets/star-wars-background-vdgqv4b95q9ur6ak.jpg';
-import {
-  setSearchResults,
-  setCurrentPage,
-  setSearchTerm,
-} from '../slices/searchSlice';
-import { useTheme } from '../context/ThemeContext';
-import Flyout from '../components/Flyout/Flyout';
-import { useSearchCharactersQuery } from '../slices/searchApiSlices';
-import { Outlet } from 'react-router-dom';
-import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
 
-const Main: React.FC = () => {
+import { setCurrentPage, setSearchTerm } from '../slices/searchSlice';
+import Details from './details/[id]';
+import { APICharacter } from '../types/interfaces';
+
+export interface Props {
+  searchResults: Character[];
+  searchTerm: string;
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface Character {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  age: string;
+  height: string;
+  mass: string;
+  gender: string;
+  films: string[];
+  isSelected?: boolean;
+}
+
+const Main: React.FC<Props> = ({
+  searchResults,
+  searchTerm,
+  currentPage,
+  totalPages,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { theme } = useTheme();
 
-  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
-  const currentPage = useSelector(
-    (state: RootState) => state.search.currentPage,
-  );
-  const resultsByPage = useSelector(
-    (state: RootState) => state.search.resultsByPage,
-  );
-  const isLoading = useSelector((state: RootState) => state.search.isLoading);
-
-  const { data: searchResults, isFetching } = useSearchCharactersQuery({
-    searchTerm,
-    page: currentPage,
-  });
-
-  React.useEffect(() => {
-    const { searchTerm: savedTerm = '', page = 1 } = router.query;
-    dispatch(setSearchTerm(String(savedTerm)));
-    dispatch(setCurrentPage(Number(page)));
-  }, [router.query, dispatch]);
-
-  React.useEffect(() => {
-    if (searchResults) {
-      dispatch(setSearchResults({ page: currentPage, results: searchResults }));
-    }
-  }, [searchResults, currentPage, dispatch]);
+  const isLoading = !searchResults;
 
   const handleSearch = (term: string) => {
     dispatch(setSearchTerm(term.trim()));
@@ -90,28 +88,26 @@ const Main: React.FC = () => {
         </div>
         <div className={styles.bottomSection}>
           <div className={styles.leftSection} onClick={handleLeftSectionClick}>
-            {isLoading || isFetching ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <SearchResults
-                results={resultsByPage[currentPage] || []}
+                results={searchResults}
                 onItemClick={handleItemClick}
               />
             )}
-            {!isLoading &&
-              resultsByPage[currentPage] &&
-              resultsByPage[currentPage].length > 0 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={9}
-                  onPageChange={handlePageChange}
-                  searchTerm={searchTerm}
-                />
-              )}
+            {searchResults.length > 0 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                searchTerm={searchTerm}
+              />
+            )}
           </div>
           {router.pathname.startsWith('/details/') && (
             <div className={styles.rightSection}>
-              <Outlet />
+              <Details />
             </div>
           )}
         </div>
@@ -120,6 +116,41 @@ const Main: React.FC = () => {
       </ErrorBoundary>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context,
+) => {
+  const { searchTerm = '', page = 1 } = context.query;
+
+  const response = await fetch(
+    `https://swapi.dev/api/people/?search=${searchTerm}&page=${page}`,
+  );
+  const data = await response.json();
+  const searchResults: Character[] = data.results.map((item: APICharacter) => {
+    const idMatch = item.url.match(/\/([0-9]*)\/$/);
+    const id = idMatch ? idMatch[1] : 'unknown';
+    return {
+      id,
+      name: item.name,
+      description: item.birth_year,
+      image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
+      age: item.birth_year,
+      height: item.height,
+      mass: item.mass,
+      gender: item.gender,
+      films: item.films,
+    };
+  });
+
+  return {
+    props: {
+      searchResults,
+      searchTerm: String(searchTerm),
+      currentPage: Number(page),
+      totalPages: Math.ceil(data.count / 10),
+    },
+  };
 };
 
 export default Main;
