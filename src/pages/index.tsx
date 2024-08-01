@@ -23,13 +23,13 @@ const Main: React.FC<MainProps> = ({
   searchTerm,
   currentPage,
   totalPages,
-  character,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { theme } = useTheme();
 
   const isLoading = !searchResults;
+  const selectedId = router.query.id as string;
 
   const handleSearch = (term: string) => {
     dispatch(setSearchTerm(term.trim()));
@@ -38,11 +38,11 @@ const Main: React.FC<MainProps> = ({
   };
 
   const handleItemClick = (id: string) => {
-    router.push(`/details/${id}?frontpage=${currentPage}`);
+    router.push(`/?searchTerm=${searchTerm}&page=${currentPage}&id=${id}`);
   };
 
   const handleLeftSectionClick = () => {
-    if (router.pathname.startsWith('/details/')) {
+    if (selectedId) {
       router.push(`/?searchTerm=${searchTerm}&page=${currentPage}`);
     }
   };
@@ -56,6 +56,10 @@ const Main: React.FC<MainProps> = ({
     theme === 'dark'
       ? '/images/star-wars-background-vdgqv4b95q9ur6ak.jpg'
       : '/images/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
+
+  const selectedCharacter = searchResults.find(
+    (character) => character.id === selectedId,
+  );
 
   return (
     <div
@@ -86,9 +90,13 @@ const Main: React.FC<MainProps> = ({
               />
             )}
           </div>
-          {router.pathname.startsWith('/details/') && (
+          {selectedId && (
             <div className={styles.rightSection}>
-              <Details character={character} />
+              {selectedCharacter ? (
+                <Details character={selectedCharacter} />
+              ) : (
+                <div>Character not found</div>
+              )}
             </div>
           )}
         </div>

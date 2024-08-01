@@ -1,6 +1,6 @@
 .details {
   position: fixed;
-  top: 80px;
+  top: 140px;
   background-color: white;
   padding: 20px;
   margin-left: 30px;
@@ -73,7 +73,7 @@
 
 @media (max-width: 768px) {
   .details {
-    top: 80px;
+    top: 60px;
     margin-left: 10px;
     padding: 15px;
     width: 80%;
