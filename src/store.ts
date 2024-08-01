@@ -17,5 +17,4 @@ const makeStore = () =>
 
 export type RootState = ReturnType<ReturnType<typeof makeStore>['getState']>;
 export type AppDispatch = ReturnType<typeof makeStore>['dispatch'];
-
-export const wrapper = createWrapper(makeStore);
+export const wrapper = createWrapper(makeStore, { debug: true });

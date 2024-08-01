@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRouter } from 'next/router';
 
 interface ErrorFallbackProps {
   error: Error;
@@ -8,25 +8,20 @@ interface ErrorFallbackProps {
 const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   error,
   resetErrorBoundary,
-}) => (
-  <div>
-    <h2>Something went wrong.</h2>
-    <p>{error.message}</p>
-    <button onClick={resetErrorBoundary}>Try Again</button>
-    <p>
-      Alternatively, you can{' '}
-      <a
-        href="/"
-        onClick={(e) => {
-          e.preventDefault();
-          window.location.reload();
-        }}
-      >
-        reload the page
-      </a>
-      .
-    </p>
-  </div>
-);
+}) => {
+  const router = useRouter();
+
+  return (
+    <div>
+      <h2>Something went wrong.</h2>
+      <p>{error.message}</p>
+      <button onClick={resetErrorBoundary}>Try Again</button>
+      <p>
+        Alternatively, you can{' '}
+        <button onClick={() => router.reload()}>reload the page</button>.
+      </p>
+    </div>
+  );
+};
 
 export default ErrorFallback;
