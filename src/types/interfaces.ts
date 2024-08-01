@@ -63,6 +63,18 @@ export default interface PaginationProps {
   searchTerm: string;
 }
 
+export interface DetailsProps {
+  character: Character;
+}
+
+export interface MainProps {
+  searchResults: Character[];
+  searchTerm: string;
+  currentPage: number;
+  totalPages: number;
+  character: Character;
+}
+
 export interface SearchState {
   searchResults: Character[];
   searchTerm: string;
@@ -82,3 +94,22 @@ export interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
 }
+
+export interface ServerSideProps {
+  searchResults: Character[];
+  searchTerm: string;
+  currentPage: number;
+  totalPages: number;
+}
+
+export const defaultCharacter: Character = {
+  id: '1',
+  name: 'Luke Skywalker',
+  description: 'A Jedi Knight',
+  image: 'https://starwars-visualguide.com/assets/img/characters/1.jpg',
+  age: '19',
+  height: '1.72m',
+  mass: '77kg',
+  gender: 'male',
+  films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi'],
+};

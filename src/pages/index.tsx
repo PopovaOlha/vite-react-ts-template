@@ -13,38 +13,17 @@ import Pagination from '../components/Pagination/Pagination';
 import Flyout from '../components/Flyout/Flyout';
 import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
 import styles from '../styles/index.module.css';
-import backgroundImageLight from '../../assets/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
-import backgroundImageDark from '../../assets/star-wars-background-vdgqv4b95q9ur6ak.jpg';
-
 import { setCurrentPage, setSearchTerm } from '../slices/searchSlice';
 import Details from './details/[id]';
-import { APICharacter } from '../types/interfaces';
+import { MainProps } from '../types/interfaces';
+import { fetchData } from '../utils/fetchData';
 
-export interface Props {
-  searchResults: Character[];
-  searchTerm: string;
-  currentPage: number;
-  totalPages: number;
-}
-
-export interface Character {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  age: string;
-  height: string;
-  mass: string;
-  gender: string;
-  films: string[];
-  isSelected?: boolean;
-}
-
-const Main: React.FC<Props> = ({
+const Main: React.FC<MainProps> = ({
   searchResults,
   searchTerm,
   currentPage,
   totalPages,
+  character,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -74,7 +53,9 @@ const Main: React.FC<Props> = ({
   };
 
   const currentBackgroundImage =
-    theme === 'dark' ? backgroundImageDark : backgroundImageLight;
+    theme === 'dark'
+      ? '/images/star-wars-background-vdgqv4b95q9ur6ak.jpg'
+      : '/images/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
 
   return (
     <div
@@ -96,7 +77,7 @@ const Main: React.FC<Props> = ({
                 onItemClick={handleItemClick}
               />
             )}
-            {searchResults.length > 0 && (
+            {Array.isArray(searchResults) && searchResults.length > 0 && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -107,7 +88,7 @@ const Main: React.FC<Props> = ({
           </div>
           {router.pathname.startsWith('/details/') && (
             <div className={styles.rightSection}>
-              <Details />
+              <Details character={character} />
             </div>
           )}
         </div>
@@ -118,39 +99,12 @@ const Main: React.FC<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
+export const getServerSideProps: GetServerSideProps<MainProps> = async (
   context,
 ) => {
-  const { searchTerm = '', page = 1 } = context.query;
+  const data = await fetchData(context);
 
-  const response = await fetch(
-    `https://swapi.dev/api/people/?search=${searchTerm}&page=${page}`,
-  );
-  const data = await response.json();
-  const searchResults: Character[] = data.results.map((item: APICharacter) => {
-    const idMatch = item.url.match(/\/([0-9]*)\/$/);
-    const id = idMatch ? idMatch[1] : 'unknown';
-    return {
-      id,
-      name: item.name,
-      description: item.birth_year,
-      image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
-      age: item.birth_year,
-      height: item.height,
-      mass: item.mass,
-      gender: item.gender,
-      films: item.films,
-    };
-  });
-
-  return {
-    props: {
-      searchResults,
-      searchTerm: String(searchTerm),
-      currentPage: Number(page),
-      totalPages: Math.ceil(data.count / 10),
-    },
-  };
+  return { props: data };
 };
 
 export default Main;

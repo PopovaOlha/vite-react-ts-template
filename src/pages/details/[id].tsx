@@ -1,72 +1,83 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { useGetCharacterDetailsQuery } from '../../slices/searchApiSlices';
-import { useDispatch } from 'react-redux';
-import { setCharacterDetails } from '../../slices/searchSlice';
+import { DetailsProps } from '../../types/interfaces';
+import { fetchCharacterData } from '../../utils/fetchCharacterData';
+import styles from '../../styles/[id].module.css';
 import { useTheme } from '../../context/ThemeContext';
-import styles from '../../styles/details.module.css';
-import Loader from '../../components/Loader/Loader';
 
-const Details: React.FC = () => {
+const Details: React.FC<DetailsProps> = ({ character }) => {
   const router = useRouter();
-  const { id } = router.query;
-  const { data: details, isLoading } = useGetCharacterDetailsQuery(
-    id as string,
-  );
-  const dispatch = useDispatch();
   const { theme } = useTheme();
 
-  useEffect(() => {
-    if (details) {
-      dispatch(setCharacterDetails(details));
-    }
-  }, [details, dispatch]);
-
-  const handleClose = () => {
-    router.push('/');
-  };
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (!details) {
-    return <p>Details not available</p>;
+  if (!character) {
+    return <div>Character not found</div>;
   }
 
   return (
-    <div
-      className={`${styles.details} ${theme === 'dark' ? styles.dark : styles.light}`}
-    >
-      <button onClick={handleClose} className={styles.closeButton}>
+    <div className={`${styles.details} ${styles[theme]}`}>
+      <button className={styles.closeButton} onClick={() => router.back()}>
         Close
       </button>
-      <h2>{details.name}</h2>
+      <h2>{character.name}</h2>
       <div className={styles.container}>
         <div className={styles.box}>
           <img
-            src={details.image}
-            alt={details.name}
             className={styles.image}
+            src={character.image}
+            alt={character.name}
           />
         </div>
         <div className={styles.description}>
           <p>
-            <b>Birth Year:</b> {details.description}
+            <b>Birth Year:</b> {character.description}
           </p>
           <p>
-            <b>Height:</b> {details.height}
+            <b>Height:</b> {character.height}
           </p>
           <p>
-            <b>Weight:</b> {details.mass}
+            <b>Mass:</b> {character.mass}
           </p>
           <p>
-            <b>Gender:</b> {details.gender}
+            <b>Gender:</b> {character.gender}
           </p>
+          <p>
+            <b>Films:</b>
+          </p>
+          <div className={styles.films}>
+            <ul>
+              {character.films.map((film, index) => (
+                <li key={index}>{film}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<DetailsProps> = async (
+  context,
+) => {
+  const result = await fetchCharacterData(context);
+
+  if ('notFound' in result && result.notFound) {
+    return { notFound: true };
+  }
+
+  if ('props' in result && result.props) {
+    const { character } = result.props;
+    if (character) {
+      return {
+        props: {
+          character,
+        },
+      };
+    }
+  }
+
+  return { notFound: true };
 };
 
 export default Details;
