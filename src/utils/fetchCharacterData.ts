@@ -1,12 +1,27 @@
-import { GetServerSidePropsContext } from 'next';
-import { APICharacter, Character } from '../types/interfaces';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { APICharacter, Character, DetailsProps } from '../types/interfaces';
 
-const fetchFilmTitles = async (filmUrls: string[]): Promise<string[]> => {
-  const filmRequests = filmUrls.map((url) =>
-    fetch(url).then((res) => res.json()),
-  );
-  const films = await Promise.all(filmRequests);
-  return films.map((film) => film.title);
+export const getServerSideProps: GetServerSideProps<DetailsProps> = async (
+  context,
+) => {
+  const result = await fetchCharacterData(context);
+
+  if ('notFound' in result && result.notFound) {
+    return { notFound: true };
+  }
+
+  if ('props' in result && result.props) {
+    const { character } = result.props;
+    if (character) {
+      return {
+        props: {
+          character,
+        },
+      };
+    }
+  }
+
+  return { notFound: true };
 };
 
 export const fetchCharacterData = async (
@@ -29,8 +44,6 @@ export const fetchCharacterData = async (
     };
   }
 
-  const filmTitles = data.films ? await fetchFilmTitles(data.films) : [];
-
   const character: Character = {
     id: id as string,
     name: data.name,
@@ -40,7 +53,7 @@ export const fetchCharacterData = async (
     height: data.height,
     mass: data.mass,
     gender: data.gender,
-    films: filmTitles,
+    films: data.films,
   };
 
   return {

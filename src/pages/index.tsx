@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '../context/ThemeContext';
@@ -16,7 +15,7 @@ import styles from '../styles/index.module.css';
 import { setCurrentPage, setSearchTerm } from '../slices/searchSlice';
 import Details from './details/[id]';
 import { MainProps } from '../types/interfaces';
-import { fetchData } from '../utils/fetchData';
+import { getServerSideProps } from '../utils/fetchData';
 
 const Main: React.FC<MainProps> = ({
   searchResults,
@@ -107,12 +106,5 @@ const Main: React.FC<MainProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<MainProps> = async (
-  context,
-) => {
-  const data = await fetchData(context);
-
-  return { props: data };
-};
-
+export { getServerSideProps };
 export default Main;

@@ -1,9 +1,9 @@
 .details {
   position: fixed;
-  top: 140px;
+  top: 120px;
   background-color: white;
-  padding: 20px;
-  margin-left: 30px;
+  margin-left: 40px;
+  padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(54, 47, 47, 0.1);
   transition:
     background-color 0.3s,
@@ -69,6 +69,10 @@
 
 .dark .description {
   border-left-color: #666666;
+}
+
+.dark .films ul {
+  color: white;
 }
 
 @media (max-width: 768px) {

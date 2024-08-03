@@ -63,6 +63,11 @@ export default interface PaginationProps {
   searchTerm: string;
 }
 
+export interface SearchResponse {
+  results: Character[];
+  count: number;
+}
+
 export interface DetailsProps {
   character: Character;
 }

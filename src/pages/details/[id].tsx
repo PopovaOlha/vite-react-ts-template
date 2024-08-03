@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { DetailsProps } from '../../types/interfaces';
-import { fetchCharacterData } from '../../utils/fetchCharacterData';
+import { getServerSideProps } from '../../utils/fetchCharacterData';
 import styles from '../../styles/[id].module.css';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -41,43 +40,11 @@ const Details: React.FC<DetailsProps> = ({ character }) => {
           <p>
             <b>Gender:</b> {character.gender}
           </p>
-          <p>
-            <b>Films:</b>
-          </p>
-          <div className={styles.films}>
-            <ul>
-              {character.films.map((film, index) => (
-                <li key={index}>{film}</li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<DetailsProps> = async (
-  context,
-) => {
-  const result = await fetchCharacterData(context);
-
-  if ('notFound' in result && result.notFound) {
-    return { notFound: true };
-  }
-
-  if ('props' in result && result.props) {
-    const { character } = result.props;
-    if (character) {
-      return {
-        props: {
-          character,
-        },
-      };
-    }
-  }
-
-  return { notFound: true };
-};
-
+export { getServerSideProps };
 export default Details;

@@ -1,5 +1,18 @@
-import { GetServerSidePropsContext } from 'next';
-import { APICharacter, Character, defaultCharacter } from '../types/interfaces';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import {
+  APICharacter,
+  Character,
+  defaultCharacter,
+  MainProps,
+} from '../types/interfaces';
+
+export const getServerSideProps: GetServerSideProps<MainProps> = async (
+  context,
+) => {
+  const data = await fetchData(context);
+
+  return { props: data };
+};
 
 export const fetchData = async (context: GetServerSidePropsContext) => {
   const { searchTerm = '', page = 1 } = context.query;
