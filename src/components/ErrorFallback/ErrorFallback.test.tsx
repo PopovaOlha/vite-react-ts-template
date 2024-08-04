@@ -1,10 +1,27 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ErrorFallback from './ErrorFallback';
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('ErrorFallback', () => {
   const error = new Error('Test error');
   const resetErrorBoundary = jest.fn();
+  const mockRouter = {
+    push: jest.fn(),
+  };
+
+  beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   test('renders error message and button', () => {
     render(

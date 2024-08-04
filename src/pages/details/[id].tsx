@@ -46,5 +46,5 @@ const Details: React.FC<DetailsProps> = ({ character }) => {
   );
 };
 
-export { getServerSideProps };
 export default Details;
+export { getServerSideProps };

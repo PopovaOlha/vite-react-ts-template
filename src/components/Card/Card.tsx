@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSelectItem } from '../../slices/selectedSlice';
@@ -42,8 +43,8 @@ const Card: React.FC<CardProps> = ({ character, onClick }) => {
         src={character.image}
         alt={character.name}
         className={styles.cardImage}
-        width={200} // Укажите ширину
-        height={300} // Укажите высоту
+        width={200}
+        height={300}
       />
       <div className={styles.cardContent}>
         <h3>{character.name}</h3>

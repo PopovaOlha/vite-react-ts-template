@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
@@ -25,10 +26,14 @@ describe('Card Component', () => {
   test('renders character card with correct details', () => {
     renderWithProviders(<Card character={mockCharacter} onClick={() => {}} />);
 
-    expect(screen.getByAltText(mockCharacter.name)).toHaveAttribute(
-      'src',
-      mockCharacter.image,
+    const imageElement = screen.getByAltText(mockCharacter.name);
+    expect(imageElement).toBeInTheDocument();
+
+    const src = imageElement.getAttribute('src');
+    expect(src).toContain(
+      'url=https%3A%2F%2Fstarwars-visualguide.com%2Fassets%2Fimg%2Fcharacters%2F1.jpg',
     );
+
     expect(screen.getByText(mockCharacter.name)).toBeInTheDocument();
     expect(screen.getByText(mockCharacter.description)).toBeInTheDocument();
   });

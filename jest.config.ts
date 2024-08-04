@@ -2,7 +2,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   setupFiles: ['<rootDir>/setupJest.ts'],
   moduleNameMapper: {
@@ -11,4 +11,6 @@ export default {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '^@app/(.*)$': '<rootDir>/$1',
   },
+  transformIgnorePatterns: ['/node_modules/'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };

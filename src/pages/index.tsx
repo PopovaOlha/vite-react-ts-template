@@ -106,5 +106,5 @@ const Main: React.FC<MainProps> = ({
   );
 };
 
-export { getServerSideProps };
 export default Main;
+export { getServerSideProps };
