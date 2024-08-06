@@ -26,6 +26,8 @@ const Details: React.FC<DetailsProps> = ({ character }) => {
             className={styles.image}
             src={character.image}
             alt={character.name}
+            width={500}
+            height={500}
             priority={true}
           />
         </div>

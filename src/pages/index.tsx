@@ -18,7 +18,7 @@ import { getServerSideProps } from '../utils/fetchData';
 import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
 
 const Main: React.FC<MainProps> = ({
-  searchResults,
+  searchResults = [],
   searchTerm,
   currentPage,
   totalPages,
@@ -31,7 +31,7 @@ const Main: React.FC<MainProps> = ({
     document.body.className = theme === 'dark' ? 'dark' : 'light';
   }, [theme]);
 
-  const isLoading = !searchResults;
+  const isLoading = !Array.isArray(searchResults);
   const selectedId = router.query.id as string;
 
   const handleSearch = (term: string) => {
@@ -60,15 +60,17 @@ const Main: React.FC<MainProps> = ({
       ? '/images/star-wars-background-vdgqv4b95q9ur6ak.jpg'
       : '/images/1625667391_7-kartinkin-com-p-zvezdnie-voini-oboi-krasivie-8.jpg';
 
-  const selectedCharacter = searchResults.find(
-    (character) => character.id === selectedId,
-  );
+  const selectedCharacter = Array.isArray(searchResults)
+    ? searchResults.find((character) => character.id === selectedId)
+    : undefined;
 
   return (
     <>
       <ThemeToggle />
       <div
-        className={`${styles.main} ${theme === 'dark' ? styles.dark : styles.light}`}
+        className={`${styles.main} ${
+          theme === 'dark' ? styles.dark : styles.light
+        }`}
         style={{ backgroundImage: `url(${currentBackgroundImage})` }}
       >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
