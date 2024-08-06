@@ -54,6 +54,7 @@ export interface SearchState {
   searchTerm: string;
   characterDetails: Character | null;
   resultsByPage: { [page: number]: Character[] };
+  results: Character[];
 }
 
 export default interface PaginationProps {

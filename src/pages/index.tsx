@@ -10,12 +10,12 @@ import SearchResults from '../components/SearchResults/SearchResults';
 import Loader from '../components/Loader/Loader';
 import Pagination from '../components/Pagination/Pagination';
 import Flyout from '../components/Flyout/Flyout';
-import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
 import styles from '../styles/index.module.css';
 import { setCurrentPage, setSearchTerm } from '../slices/searchSlice';
 import Details from './details/[id]';
 import { MainProps } from '../types/interfaces';
 import { getServerSideProps } from '../utils/fetchData';
+import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
 
 const Main: React.FC<MainProps> = ({
   searchResults,
@@ -26,6 +26,10 @@ const Main: React.FC<MainProps> = ({
   const router = useRouter();
   const dispatch = useDispatch();
   const { theme } = useTheme();
+
+  React.useEffect(() => {
+    document.body.className = theme === 'dark' ? 'dark' : 'light';
+  }, [theme]);
 
   const isLoading = !searchResults;
   const selectedId = router.query.id as string;
@@ -61,48 +65,53 @@ const Main: React.FC<MainProps> = ({
   );
 
   return (
-    <div
-      className={`${styles.main} ${theme === 'dark' ? styles.dark : styles.light}`}
-      style={{ backgroundImage: `url(${currentBackgroundImage})` }}
-    >
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <ThemeToggle />
-        <div className={styles.topSection}>
-          <Search onSearch={handleSearch} searchTerm={searchTerm} />
-        </div>
-        <div className={styles.bottomSection}>
-          <div className={styles.leftSection} onClick={handleLeftSectionClick}>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <SearchResults
-                results={searchResults}
-                onItemClick={handleItemClick}
-              />
-            )}
-            {Array.isArray(searchResults) && searchResults.length > 0 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                searchTerm={searchTerm}
-              />
-            )}
+    <>
+      <ThemeToggle />
+      <div
+        className={`${styles.main} ${theme === 'dark' ? styles.dark : styles.light}`}
+        style={{ backgroundImage: `url(${currentBackgroundImage})` }}
+      >
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <div className={styles.topSection}>
+            <Search onSearch={handleSearch} searchTerm={searchTerm} />
           </div>
-          {selectedId && (
-            <div className={styles.rightSection}>
-              {selectedCharacter ? (
-                <Details character={selectedCharacter} />
+          <div className={styles.bottomSection}>
+            <div
+              className={styles.leftSection}
+              onClick={handleLeftSectionClick}
+            >
+              {isLoading ? (
+                <Loader />
               ) : (
-                <div>Character not found</div>
+                <SearchResults
+                  results={searchResults}
+                  onItemClick={handleItemClick}
+                />
+              )}
+              {Array.isArray(searchResults) && searchResults.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  searchTerm={searchTerm}
+                />
               )}
             </div>
-          )}
-        </div>
-        <ErrorTestButton />
-        <Flyout />
-      </ErrorBoundary>
-    </div>
+            {selectedId && (
+              <div className={styles.rightSection}>
+                {selectedCharacter ? (
+                  <Details character={selectedCharacter} />
+                ) : (
+                  <div>Character not found</div>
+                )}
+              </div>
+            )}
+          </div>
+          <ErrorTestButton />
+          <Flyout />
+        </ErrorBoundary>
+      </div>
+    </>
   );
 };
 
