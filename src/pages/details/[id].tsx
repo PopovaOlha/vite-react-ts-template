@@ -4,6 +4,7 @@ import { DetailsProps } from '../../types/interfaces';
 import { getServerSideProps } from '../../utils/fetchCharacterData';
 import styles from '../../styles/[id].module.css';
 import { useTheme } from '../../context/ThemeContext';
+import Image from 'next/image';
 
 const Details: React.FC<DetailsProps> = ({ character }) => {
   const router = useRouter();
@@ -21,10 +22,11 @@ const Details: React.FC<DetailsProps> = ({ character }) => {
       <h2>{character.name}</h2>
       <div className={styles.container}>
         <div className={styles.box}>
-          <img
+          <Image
             className={styles.image}
             src={character.image}
             alt={character.name}
+            priority={true}
           />
         </div>
         <div className={styles.description}>

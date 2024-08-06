@@ -1,4 +1,4 @@
-export default {
+const jestConfig = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   transform: {
@@ -14,3 +14,5 @@ export default {
   transformIgnorePatterns: ['/node_modules/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
+
+export default jestConfig;
