@@ -81,6 +81,20 @@ export interface MainProps {
   character: Character;
 }
 
+export interface MainServerProps {
+  searchParams: {
+    searchTerm: string;
+    page: string;
+  };
+}
+
+export interface MainClientProps {
+  searchTerm: string;
+  page: number;
+  searchResults: Character[];
+  totalPages: number;
+}
+
 export interface SearchState {
   searchResults: Character[];
   searchTerm: string;

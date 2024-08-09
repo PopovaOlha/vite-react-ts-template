@@ -4,8 +4,6 @@ import React, { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store';
 import Head from 'next/head';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import ErrorFallback from '../components/ErrorFallback/ErrorFallback';
 import { ThemeProvider } from '../context/ThemeContext';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -26,9 +24,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
                 href="/images/favicon-16x16.png"
               />
             </Head>
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              {children}
-            </ErrorBoundary>
+            {children}
           </ThemeProvider>
         </Provider>
       </body>
