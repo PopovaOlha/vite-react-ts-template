@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: ['starwars-visualguide.com'],
   },
-    distDir: './dist',
+  distDir: './dist',
   } 
    
   export default nextConfig

@@ -1,51 +1,15 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { APICharacter, Character, DetailsProps } from '../types/interfaces';
+import { APICharacter, Character } from '../types/interfaces';
 
-export const getServerSideProps: GetServerSideProps<DetailsProps> = async (
-  context,
-) => {
-  const result = await fetchCharacterData(context);
-
-  if ('notFound' in result && result.notFound) {
-    return { notFound: true };
-  }
-
-  if ('props' in result && result.props) {
-    const { character } = result.props;
-    if (character) {
-      return {
-        props: {
-          character,
-        },
-      };
-    }
-  }
-
-  return { notFound: true };
-};
-
-export const fetchCharacterData = async (
-  context: GetServerSidePropsContext,
-) => {
-  const { id } = context.params || {};
-
-  if (!id) {
-    return {
-      notFound: true,
-    };
-  }
-
+export const fetchCharacterData = async (id: string) => {
   const response = await fetch(`https://swapi.dev/api/people/${id}`);
   const data: APICharacter = await response.json();
 
   if (!data) {
-    return {
-      notFound: true,
-    };
+    return { notFound: true };
   }
 
   const character: Character = {
-    id: id as string,
+    id,
     name: data.name,
     description: data.birth_year,
     image: `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`,
@@ -57,8 +21,6 @@ export const fetchCharacterData = async (
   };
 
   return {
-    props: {
-      character,
-    },
+    character,
   };
 };

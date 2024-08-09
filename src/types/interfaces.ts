@@ -108,6 +108,11 @@ export interface ServerSideProps {
   totalPages: number;
 }
 
+export interface DetailsClientProps {
+  character: Character;
+  id: string;
+}
+
 export const defaultCharacter: Character = {
   id: '1',
   name: 'Luke Skywalker',

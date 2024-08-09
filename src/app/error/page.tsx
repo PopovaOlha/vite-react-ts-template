@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import styles from '../styles/error.module.css';
+import styles from '../../styles/error.module.css';
 
 const NotFound: React.FC = () => {
   return (

@@ -1,22 +1,6 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import {
-  APICharacter,
-  Character,
-  defaultCharacter,
-  MainProps,
-} from '../types/interfaces';
+import { APICharacter, Character } from '../types/interfaces';
 
-export const getServerSideProps: GetServerSideProps<MainProps> = async (
-  context,
-) => {
-  const data = await fetchData(context);
-
-  return { props: data };
-};
-
-export const fetchData = async (context: GetServerSidePropsContext) => {
-  const { searchTerm = '', page = 1 } = context.query;
-
+export const fetchData = async (searchTerm: string, page: number) => {
   const response = await fetch(
     `https://swapi.dev/api/people/?search=${searchTerm}&page=${page}`,
   );
@@ -39,9 +23,8 @@ export const fetchData = async (context: GetServerSidePropsContext) => {
 
   return {
     searchResults,
-    searchTerm: String(searchTerm),
-    currentPage: Number(page),
+    searchTerm,
+    currentPage: page,
     totalPages: Math.ceil(data.count / 10),
-    character: defaultCharacter,
   };
 };
