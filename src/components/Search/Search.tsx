@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -26,8 +28,8 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
   }, [searchTerm]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className={styles.search}>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"
           value={localSearchTerm}

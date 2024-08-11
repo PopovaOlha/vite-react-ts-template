@@ -1,22 +1,20 @@
-import * as React from 'react';
-import { useRouter } from 'next/router';
-import { DetailsProps } from '../../types/interfaces';
-import { getServerSideProps } from '../../utils/fetchCharacterData';
+'use client';
+
+import React from 'react';
+import { DetailsClientProps } from '../../types/interfaces';
 import styles from '../../styles/[id].module.css';
 import { useTheme } from '../../context/ThemeContext';
 import Image from 'next/image';
 
-const Details: React.FC<DetailsProps> = ({ character }) => {
-  const router = useRouter();
+const DetailsClient: React.FC<DetailsClientProps> = ({ character }) => {
   const { theme } = useTheme();
-
-  if (!character) {
-    return <div>Character not found</div>;
-  }
 
   return (
     <div className={`${styles.details} ${styles[theme]}`}>
-      <button className={styles.closeButton} onClick={() => router.back()}>
+      <button
+        className={styles.closeButton}
+        onClick={() => window.history.back()}
+      >
         Close
       </button>
       <h2>{character.name}</h2>
@@ -50,5 +48,4 @@ const Details: React.FC<DetailsProps> = ({ character }) => {
   );
 };
 
-export default Details;
-export { getServerSideProps };
+export default DetailsClient;

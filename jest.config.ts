@@ -1,18 +1,17 @@
-const jestConfig = {
+module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '^.+\\.(ts|tsx)?$': 'ts-jest',
+    '^.+\\.(js|jsx)?$': 'babel-jest',
+    '\\.(css|less)$': 'jest-transform-stub',
   },
-  setupFiles: ['<rootDir>/setupJest.ts'],
-  moduleNameMapper: {
-    '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$':
-      '<rootDir>/test/__mocks__/fileMock.ts',
-    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-    '^@app/(.*)$': '<rootDir>/$1',
-  },
-  transformIgnorePatterns: ['/node_modules/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  moduleNameMapper: {
+    '^@components/(.*)$': '<rootDir>/components/$1',
+    '^@context/(.*)$': '<rootDir>/context/$1',
+    '^@utils/(.*)$': '<rootDir>/utils/$1',
+    '^@styles/(.*)$': '<rootDir>/styles/$1',
+  },
 };
-
-export default jestConfig;

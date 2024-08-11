@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { DEFAULT_THEME, DARK_THEME } from './themeUtils';
@@ -26,6 +28,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
+    console.error('useTheme must be used within a ThemeProvider');
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
