@@ -28,8 +28,8 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
   }, [searchTerm]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className={styles.search}>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"
           value={localSearchTerm}

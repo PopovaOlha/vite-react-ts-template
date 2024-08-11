@@ -127,6 +127,10 @@ export interface DetailsClientProps {
   id: string;
 }
 
+export interface DetailsServerProps extends CardProps {
+  id: string;
+}
+
 export const defaultCharacter: Character = {
   id: '1',
   name: 'Luke Skywalker',

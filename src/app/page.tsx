@@ -1,4 +1,5 @@
 import MainServer from '../components/Main/MainServer';
+import LayoutClient from '../components/Layout/LayoutClient';
 
 const Page = async ({
   searchParams,
@@ -10,7 +11,11 @@ const Page = async ({
     page: searchParams.page || '1',
   };
 
-  return <MainServer searchParams={params} />;
+  return (
+    <LayoutClient>
+      <MainServer searchParams={params} />;
+    </LayoutClient>
+  );
 };
 
 export default Page;

@@ -1,12 +1,10 @@
 import { fetchCharacterData } from '../../../utils/fetchCharacterData';
 import DetailsClient from '../../../components/Details/Details';
-import { CardProps } from 'src/types/interfaces';
+import { DetailsServerProps } from 'src/types/interfaces';
 
-interface DetailsServerProps extends CardProps {
-  id: string;
-}
+type CompatibleProps<T> = T extends { id: infer U } ? { id: U } : never;
 
-const DetailsServer = async ({ id }: DetailsServerProps) => {
+const DetailsServer = async ({ id }: CompatibleProps<DetailsServerProps>) => {
   const { character } = await fetchCharacterData(id);
 
   if (!character) {

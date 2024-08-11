@@ -33,9 +33,11 @@ const MainClient: React.FC<MainClientProps> = ({
   >(undefined);
 
   useEffect(() => {
-    setLoading(false);
+    document.body.className = theme === 'dark' ? 'dark' : 'light';
+  }, [theme]);
 
-    // Client-side code to handle window and URLSearchParams
+  useEffect(() => {
+    setLoading(false);
     const id = new URLSearchParams(window.location.search).get('id');
     setSelectedId(id);
 

@@ -1,35 +1,26 @@
-'use client';
+import '../index.css';
 
-import React, { ReactNode } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store';
-import Head from 'next/head';
-import { ThemeProvider } from '../context/ThemeContext';
-
-const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return (
-    <html lang="en">
-      <body>
-        <Provider store={store}>
-          <ThemeProvider>
-            <Head>
-              <title>nextjs-ssr-app-router-api</title>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0"
-              />
-              <link
-                rel="icon"
-                type="image/png"
-                href="/images/favicon-16x16.png"
-              />
-            </Head>
-            {children}
-          </ThemeProvider>
-        </Provider>
-      </body>
-    </html>
-  );
+export const metadata = {
+  title: 'nextjs-ssr-app-router-api',
+  description: 'A Next.js app with SSR and App Router API',
+  icons: {
+    icon: '/images/favicon-16x16.png',
+  },
 };
 
-export default Layout;
+export const generateViewport = () => ({
+  width: 'device-width',
+  initialScale: 1.0,
+});
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
