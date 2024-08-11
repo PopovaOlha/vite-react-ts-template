@@ -1,5 +1,6 @@
 import MainServer from '../components/Main/MainServer';
 import LayoutClient from '../components/Layout/LayoutClient';
+import React from 'react';
 
 const Page = async ({
   searchParams,

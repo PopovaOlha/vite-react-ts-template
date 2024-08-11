@@ -1,4 +1,5 @@
 import '../index.css';
+import React from 'react';
 
 export const metadata = {
   title: 'nextjs-ssr-app-router-api',
